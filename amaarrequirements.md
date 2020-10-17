@@ -10,17 +10,21 @@ test_ticket = Ticket(
     price=10,
     date='20200901'
 )
+
 test_user = User(
     email='test_frontend@test.com',
     name='test_frontend',
     password=generate_password_hash('test_frontend')
 )
+
 Test case R4.1- Name of ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character. - positive
 
 Mocking:
+
 •	Mock backend.get_user to return a test_user instance
 •	Mock backend.get_ticket to return a test_ticket instance
 Actions:
+
 •	open /logout (to invalidate any logged-in sessions that may exist)
 •	open /login
 •	enter test_user's email into element #email
@@ -39,9 +43,11 @@ Actions:
 Test case R4.1- Name of ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character. - negative
 
 Mocking:
+
 •	Mock backend.get_user to return a test_user instance
 •	Mock backend.get_ticket to return a test_ticket instance
 Actions:
+
 •	open /logout (to invalidate any logged-in sessions that may exist)
 •	open /login
 •	enter test_user's email into element #email
@@ -57,11 +63,15 @@ Actions:
 •	Click element #sell_submit
 •	Validate that the sell_name_message element shows invalid and the sell_submit message shows unsuccessful
 •	Open /logout
+
 Test case R4.2 - Name of ticket is no longer than 60 characters - positive
+
 Mocking:
+
 •	Mock backend.get_user to return a test_user instance
 •	Mock backend.get_ticket to return a test_ticket instance
 Actions:
+
 •	open /logout (to invalidate any logged-in sessions that may exist)
 •	open /login
 •	enter test_user's email into element #email
