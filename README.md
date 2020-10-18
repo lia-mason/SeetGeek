@@ -1,5 +1,5 @@
 # IMPORTANT
-# PLEASE READ
+# MAKE SURE TO HAVE DONE THE FOLLOWING: 
 1.
 - Have your own markdown files in your branches.
 - There is a sign that says pull request, click on it and click on create pull request. 
