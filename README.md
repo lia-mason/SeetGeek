@@ -1,12 +1,4 @@
-Use following commands to get the tag name (only one person) :
 
-while in master branch, open terminal and type: 
-
-  git tag v0.0.4
-  
-  git push --tags
-
-submit the tag name : v0.0.4 to ONQ and the pull request links for each member. 
 
 # IMPORTANT
 # PLEASE DON'T MERGE ANYTHING TO MASTER UNTIL ITS YOUR FINAL DRAFT, especially the test summary.md. 
@@ -25,6 +17,16 @@ and it doesn't mess the file that is currently in master.
 - There are short answers at the bottom of that file, add stuff to it if necessary. 
 
 Thanks :) 
+
+Use following commands to get the tag name (only one person) :
+
+while in master branch, open terminal and type: 
+
+  git tag v0.0.4
+  
+  git push --tags
+
+submit the tag name : v0.0.4 to ONQ and the pull request links for each member. 
 
 # SeetGeek
 
