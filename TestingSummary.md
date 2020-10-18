@@ -1,3 +1,7 @@
+#AMAAR - Requirements 4,5,8
+#BUCHI - Requirements 2,6
+#AARTI - Requirements 3,7
+#LIA - Requirements 1,6
 |                                                                                                                Specification | Test case ID |                                                                                                          Purpose |
 |-----------------------------------------------------------------------------------------------------------------------------:|-------------:|-----------------------------------------------------------------------------------------------------------------:|
 | The name of the ticket has to be alphanumeric-only,<br> and space allowed only if it is not the first or the last character. |       R4.1.1 | Check if the selling actions succeed when <br>the ticket names is alphanumeric-only<br>and contains legal spaces |
