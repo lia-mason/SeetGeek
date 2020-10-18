@@ -1,5 +1,3 @@
-R1
-
 R1: /login
 
 Test Data:
@@ -52,24 +50,151 @@ R1.4 - The login page provides a login form which requests two fields: email and
 
 R1.5 - The login form can be submitted as a POST request to the current URL (/login)
 
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+•	validate that current page contains #welcome-header element
+
 R1.6 - Email and password both cannot be empty
 
-R1.7 - Email has to follow adr-spec defined in RFC 5322
+Mocking:
 
-R1.8 - Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+For empty email and password:
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	click element input[type="submit"]
+• validate that page contains the error message 'fill out this field'
+
+For empty email with non-empty password:
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+• validate that page contains the error message 'fill out this field'
+
+For non-empty email with empty password:
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	click element input[type="submit"]
+• validate that page contains the error message 'fill out this field'
+
+R1.7 - Email has to follow adr-spec defined in RFC 5322 - positive
+
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+•	validate that current page contains #welcome-header element
+
+R1.7 - Email has to follow adr-spec defined in RFC 5322 - negative
+
+Additional test_data:
+invalid_email = "hey.com"
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+•	validate that page contains the error message 'email/password format is incorrect'
+
+R1.8 - Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character - positive
+
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+•	validate that current page contains #welcome-header element
+
+R1.8 - Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character - negative
+
+Additional test data:
+invalid_password = "hi"
+
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter invalid_password into element #password
+•	click element input[type="submit"]
+•	validate that page contains the error message 'email/password format is incorrect'
 
 R1.9 - For any formatting errors, render the login page and show the message 'email/password format is incorrect'.
 
+Additional test data:
+too_short_password = "hi"
+
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter too_short_password into element #password
+•	click element input[type="submit"]
+• validate that the page source contains the text 'Log In'
+•	validate that page contains the error message 'email/password format is incorrect'
+
 R1.10 - If email/password are correct, redirect to /
+
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+•	validate that current page contains #welcome-header element
 
 R1.11 - Otherwise, redirect to /login and show message 'email/password combination incorrect'
 
-R6: /buy
+Actions:
 
-[POST]
-
-R6.1 - The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character.
-
-R6.2 - The name of the ticket is no longer than 60 characters
-
-R6.3 - The quantity of the tickets has to be more than 0, and less than or equal to 100.
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter wrong_password into element #password
+•	click element input[type="submit"]
+• validate that the page source contains the text 'Log In'
+•	validate that page contains the error message 'email/password combination incorrect'
