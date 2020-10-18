@@ -240,135 +240,135 @@ R2.10: If no error regarding the inputs following the rules above, create a new 
 Test case R6.1- Name of ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character. - positive
 
 Mocking:
-•	Mock backend.get_user to return a test_user instance
-•	Mock backend.get_ticket to return a test_ticket instance
+-	Mock backend.get_user to return a test_user instance
+-	Mock backend.get_ticket to return a test_ticket instance
 Actions:
-•	open /logout (to invalidate any logged-in sessions that may exist)
-•	open /login
-•	enter test_user's email into element #email
-•	enter test_user's password into element #password
-•	click element input[type="submit"]
-•	Open /
-•	Click element #sell
-•	Open /sell
-•	enter test_ticket_valid_name into element #sell_name
-•	enter test_ticket's quantity into element #sell_quantity
-•	Enter test_ticket’s date into element #sell_date
-•	Enter test_ticket’s price into element #sell_price
-•	Click element #sell_submit
-•	Validate that the sell_name_message element shows valid and sell_submit message shows successful
-•	Open /logout
+-	open /logout (to invalidate any logged-in sessions that may exist)
+-	open /login
+-	enter test_user's email into element #email
+-	enter test_user's password into element #password
+-	click element input[type="submit"]
+-	Open /
+-	Click element #sell
+-	Open /sell
+-	enter test_ticket_valid_name into element #sell_name
+-	enter test_ticket's quantity into element #sell_quantity
+-	Enter test_ticket’s date into element #sell_date
+-	Enter test_ticket’s price into element #sell_price
+-	Click element #sell_submit
+-	Validate that the sell_name_message element shows valid and sell_submit message shows successful
+-	Open /logout
 
 
 Test case R6.1- Name of ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character. - negative
 
 Mocking:
-•	Mock backend.get_user to return a test_user instance
-•	Mock backend.get_ticket to return a test_ticket instance
+-	Mock backend.get_user to return a test_user instance
+-	Mock backend.get_ticket to return a test_ticket instance
 Actions:
-•	open /logout (to invalidate any logged-in sessions that may exist)
-•	open /login
-•	enter test_user's email into element #email
-•	enter test_user's password into element #password
-•	click element input[type="submit"]
-•	Open /
-•	Click element #sell
-•	Open /sell
-•	enter test_ticket_invalid_name into element #sell_name
-•	enter test_ticket's quantity into element #sell_quantity
-•	Enter test_ticket’s date into element #sell_date
-•	Enter test_ticket’s price into element #sell_price
-•	Click element #sell_submit
-•	Validate that the sell_name_message element shows invalid and the sell_submit message shows unsuccessful
-•	Open /logout
+-	open /logout (to invalidate any logged-in sessions that may exist)
+-	open /login
+-	enter test_user's email into element #email
+-	enter test_user's password into element #password
+-	click element input[type="submit"]
+-	Open /
+-   Click element #sell
+-   Open /sell
+-	enter test_ticket_invalid_name into element #sell_name
+-	enter test_ticket's quantity into element #sell_quantity
+-	Enter test_ticket’s date into element #sell_date
+-	Enter test_ticket’s price into element #sell_price
+-	Click element #sell_submit
+-	Validate that the sell_name_message element shows invalid and the sell_submit message shows unsuccessful
+-	Open /logout
 
 
 Test case R6.2 - Name of ticket is no longer than 60 characters - positive
 Mocking:
-•	Mock backend.get_user to return a test_user instance
-•	Mock backend.get_ticket to return a test_ticket instance
+-	Mock backend.get_user to return a test_user instance
+-	Mock backend.get_ticket to return a test_ticket instance
 Actions:
-•	open /logout (to invalidate any logged-in sessions that may exist)
-•	open /login
-•	enter test_user's email into element #email
-•	enter test_user's password into element #password
-•	click element input[type="submit"]
-•	Open /
-•	Click element #sell
-•	Open /sell
-•	enter test_ticket's LTsixtychname into element #sell_name
-•	enter test_ticket's quantity into element #sell_quantity
-•	Enter test_ticket’s date into element #sell_date
-•	Enter test_ticket’s price into element #sell_price
-•	Click element #sell_submit
-•	Validate that the sell_name_message element shows valid and the sell_submit message shows successful
-•	Open /logout
+-	open /logout (to invalidate any logged-in sessions that may exist)
+-	open /login
+-	enter test_user's email into element #email
+-	enter test_user's password into element #password
+-	click element input[type="submit"]
+-	Open /
+-	Click element #sell
+-	Open /sell
+-	enter test_ticket's LTsixtychname into element #sell_name
+-	enter test_ticket's quantity into element #sell_quantity
+-	Enter test_ticket’s date into element #sell_date
+-	Enter test_ticket’s price into element #sell_price
+-	Click element #sell_submit
+-	Validate that the sell_name_message element shows valid and the sell_submit message shows successful
+-	Open /logout
 
 
 Test case R6.2 - Name of ticket is no longer than 60 characters - negative
 Mocking:
-•	Mock backend.get_user to return a test_user instance
-•	Mock backend.get_ticket to return a test_ticket instance
+-	Mock backend.get_user to return a test_user instance
+-	Mock backend.get_ticket to return a test_ticket instance
 Actions:
-•	open /logout (to invalidate any logged-in sessions that may exist)
-•	open /login
-•	enter test_user's email into element #email
-•	enter test_user's password into element #password
-•	click element input[type="submit"]
-•	Open /
-•	Click element #sell
-•	Open /sell
-•	enter test_ticket's GTsixtychname into element #sell_name
-•	enter test_ticket's quantity into element #sell_quantity
-•	Enter test_ticket’s date into element #sell_date
-•	Enter test_ticket’s price into element #sell_price
-•	Click element #sell_submit
-•	Validate that the sell_name_message element shows invalid and the sell_submit message shows unsuccessful
-•	Open /logout
+-	open /logout (to invalidate any logged-in sessions that may exist)
+-	open /login
+-	enter test_user's email into element #email
+-	enter test_user's password into element #password
+-	click element input[type="submit"]
+-	Open /
+-	Click element #sell
+-	Open /sell
+-	enter test_ticket's GTsixtychname into element #sell_name
+-	enter test_ticket's quantity into element #sell_quantity
+-	Enter test_ticket’s date into element #sell_date
+-	Enter test_ticket’s price into element #sell_price
+-	Click element #sell_submit
+-	Validate that the sell_name_message element shows invalid and the sell_submit message shows unsuccessful
+-	Open /logout
 
 
 Test case R6.3 - The quantity of the tickets has to be more than 0, and less than or equal to 100. - positive 
 Mocking:
-•	Mock backend.get_user to return a test_user instance
-•	Mock backend.get_ticket to return a test_ticket instance
+-	Mock backend.get_user to return a test_user instance
+-	Mock backend.get_ticket to return a test_ticket instance
 Actions:
-•	open /logout (to invalidate any logged-in sessions that may exist)
-•	open /login
-•	enter test_user's email into element #email
-•	enter test_user's password into element #password
-•	click element input[type="submit"]
-•	Open /
-•	Click element #sell
-•	Open /sell
-•	enter test_ticket's name into element #sell_name
-•	enter test_ticket_50 into element #sell_quantity
-•	Enter test_ticket’s date into element #sell_date
-•	Enter test_ticket’s price into element #sell_price
-•	Click element #sell_submit
-•	Validate that the sell_quantity_message element shows valid and the sell_submit message shows successful
-•	Open /logout
+-	open /logout (to invalidate any logged-in sessions that may exist)
+-	open /login
+-	enter test_user's email into element #email
+-	enter test_user's password into element #password
+-	click element input[type="submit"]
+-	Open /
+-	Click element #sell
+-	Open /sell
+-	enter test_ticket's name into element #sell_name
+-	enter test_ticket_50 into element #sell_quantity
+-	Enter test_ticket’s date into element #sell_date
+-	Enter test_ticket’s price into element #sell_price
+-	Click element #sell_submit
+-	Validate that the sell_quantity_message element shows valid and the sell_submit message shows successful
+-	Open /logout
 
 
 Test case R6.3 - The quantity of the tickets has to be more than 0, and less than or equal to 100. - negative
 Mocking:
-•	Mock backend.get_user to return a test_user instance
-•	Mock backend.get_ticket to return a test_ticket instance
+-	Mock backend.get_user to return a test_user instance
+-	Mock backend.get_ticket to return a test_ticket instance
 Actions:
-•	open /logout (to invalidate any logged-in sessions that may exist)
-•	open /login
-•	enter test_user's email into element #email
-•	enter test_user's password into element #password
-•	click element input[type="submit"]
-•	Open /
-•	Click element #sell
-•	Open /sell
-•	enter test_ticket's name into element #sell_name
-•	enter test_ticket_130 into element #sell_quantity
-•	Enter test_ticket’s date into element #sell_date
-•	Enter test_ticket_price into element #sell_price
-•	Click element #sell_submit
-•	Validate that the sell_quantity_message element shows invalid and the sell_submit message shows unsuccessful
-•	Open /logout
+-	open /logout (to invalidate any logged-in sessions that may exist)
+-	open /login
+-	enter test_user's email into element #email
+-	enter test_user's password into element #password
+-	click element input[type="submit"]
+-	Open /
+-	Click element #sell
+-	Open /sell
+-	enter test_ticket's name into element #sell_name
+-	enter test_ticket_130 into element #sell_quantity
+-	Enter test_ticket’s date into element #sell_date
+-	Enter test_ticket_price into element #sell_price
+-	Click element #sell_submit
+-	Validate that the sell_quantity_message element shows invalid and the sell_submit message shows unsuccessful
+-	Open /logout
 
 Test case R6.4: The ticket name exists in the database and the quantity is more than the quantity requested to buy - positive
 Mocking:
