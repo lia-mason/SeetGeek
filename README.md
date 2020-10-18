@@ -1,5 +1,7 @@
 # IMPORTANT
-# MAKE SURE TO HAVE DONE THE FOLLOWING: 
+# PLEASE DON'T MERGE ANYTHING TO MASTER UNTIL ITS YOUR FINAL DRAFT, especially the test summary.md. 
+
+# ALSO MAKE SURE TO HAVE DONE THE FOLLOWING: 
 1.
 - Have your own markdown files in your branches.
 - There is a sign that says pull request, click on it and click on create pull request. 
@@ -7,11 +9,11 @@
 
 2. 
 - Go under amaar's branch, click on the TestSummary.md file and complete the table with the test cases you have done.
-- Commit those changes to that branch.
+- Commit those changes to that branch, go to pull requests and merge the pull request to master only if its final
+and it doesn't mess the file that is currently in master. 
 - There are short answers at the bottom of that file, add stuff to it if necessary. 
 
 Thanks :) 
-
 
 # SeetGeek
 
