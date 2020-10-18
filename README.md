@@ -1,7 +1,9 @@
 Use following commands to get the tag name (only one person) :
 
 while in master branch, open terminal and type: 
+
   git tag v0.0.4
+  
   git push --tags
 
 submit the tag name : v0.0.4 to ONQ and the pull request links for each member. 
