@@ -2,15 +2,51 @@ R1
 
 R1: /login
 
+Test Data:
+
+test_user = User(
+    email='test_frontend@test.com',
+    name='test_frontend',
+    password=generate_password_hash('test_frontend')
+)
+
 [GET]
 
 R1.1 - If the user hasn't logged in, show the login page
 
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+• validate that the page source contains the text 'Log In'
+
 R1.2 - The login page has a message that by default says 'please login'
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	validate that current page contains #message element
+•	validate that the #message element has the text 'please login'
 
 R1.3 - If the user has logged in, redirect to the user profile page
 
+Mocking:
+
+•	Mock backend.get_user to return a test_user instance
+
+Actions:
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+•	enter test_user's email into element #email
+•	enter test_user's password into element #password
+•	click element input[type="submit"]
+•	open /login again
+•	validate that current page contains #welcome-header element
+
 R1.4 - The login page provides a login form which requests two fields: email and passwords
+
+•	open /logout (to invalidate any logged-in sessions that may exist)
+•	open /login
+• validate that current page contains #email element
+• validate that current page contains #password element
 
 [POST]
 
