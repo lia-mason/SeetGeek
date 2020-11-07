@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
+import re
 
 """
 This file defines the front-end part of the service.
@@ -28,15 +29,21 @@ def register_post():
     if password != password2:
         error_message = "The passwords do not match"
 
+    elif len(name) <= 2 or len(name) >= 20:
+        error_message = "username too long or short"
+    
+    elif not re.match("^[a-zA-Z0-9_.-]+$", name):
+        error_message = "username should be alphanumeric only"
+
     elif len(email) < 1:
         error_message = "Email format error"
 
-    elif len(password) < 1:
+    elif len(password) < 6:
         error_message = "Password not strong enough"
     else:
         user = bn.get_user(email)
         if user:
-            error_message = "User exists"
+            error_message = "this email has already been used"
         elif not bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
