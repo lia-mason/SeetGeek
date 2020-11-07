@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
+import re
 
 """
 This file defines the front-end part of the service.
@@ -56,6 +57,17 @@ def login_get():
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
+    error_message = None
+
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        error_message = "email/password format is incorrect"
+
+    if len(password) < 6:
+        error_message = 'email/password format is incorrect'
+
+    if not (any(x.isupper() for x in password) and any(x.islower() for x in password) and len(password) >= 6):
+        error_message = 'email/password format is incorrect'
+    
     user = bn.login_user(email, password)
     if user:
         session['logged_in'] = user.email
@@ -73,7 +85,7 @@ def login_post():
         # code 303 is to force a 'GET' request
         return redirect('/', code=303)
     else:
-        return render_template('login.html', message='login failed')
+        return render_template('login.html', message= error_message)
 
 
 @app.route('/logout')
