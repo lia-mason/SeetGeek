@@ -2,6 +2,7 @@ from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
 import string
+import re
 
 """
 This file defines the front-end part of the service.
@@ -44,6 +45,9 @@ def register_post():
     elif len(email) < 1:
         error_message = "{} format is incorrect.'.format(email)"
 
+    elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        error_message = "email not valid"
+
     else:
         user = bn.get_user(email)
         if user:
@@ -55,7 +59,7 @@ def register_post():
     if error_message:
         return render_template('login.html', message=error_message)
     else:
-        bn.register_user(email,name,password,password2, 5000)
+        bn.register_user(email,name,password,password2,5000)
         return redirect('/login')
 
 
