@@ -10,6 +10,22 @@
 
 <h2 >Here are all available tickets</h2>
 
+<h4 >User balance: 5000</h4>
+
+<h4><u>Sell a ticket</u></h4>
+
+<form method="post">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="quantity">Quantity:</label><br>
+  <input type="text" id="quantity" name="quantity"><br>
+    <label for="price">Price:</label><br>
+      <input type="text" id="price" name="price"><br>
+    <label for="date">Expiration Date:</label><br>
+  <input type="text" id="date" name="date"><br><br>
+    <input type="submit" value="Submit"><br>
+</form><br>
+
 <div id="tickets">
 {% for ticket in tickets %}
     <div>

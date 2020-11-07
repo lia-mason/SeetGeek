@@ -82,6 +82,10 @@ def logout():
         session.pop('logged_in', None)
     return redirect('/')
 
+@app.route('/sell', methods=['POST'])
+def sell():
+    return redirect('/')
+
 
 def authenticate(inner_function):
     """
