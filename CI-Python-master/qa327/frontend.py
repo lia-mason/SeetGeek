@@ -33,7 +33,7 @@ def register_post():
         error_message = "username too long or short"
     
     elif not re.match("^[a-zA-Z0-9_.-]+$", name):
-        error_message = "username should be alphanumeric only"
+        error_message = "{} format is incorrect.'.format(name)"
 
     elif len(email) < 1:
         error_message = "Email format error"
@@ -51,6 +51,7 @@ def register_post():
     if error_message:
         return render_template('register.html', message=error_message)
     else:
+        bn.register_user(email,name,password,password2, 5000)
         return redirect('/login')
 
 
