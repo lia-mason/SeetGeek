@@ -1,7 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
-import re
+import string
 
 """
 This file defines the front-end part of the service.
@@ -27,19 +27,23 @@ def register_post():
 
 
     if password != password2:
-        error_message = "The passwords do not match"
+        error_message = "{} format is incorrect.'.format(password)"
 
     elif len(name) <= 2 or len(name) >= 20:
-        error_message = "username too long or short"
-    
-    elif not re.match("^[a-zA-Z0-9_.-]+$", name):
         error_message = "{} format is incorrect.'.format(name)"
 
-    elif len(email) < 1:
-        error_message = "Email format error"
+    elif not all(chr.isalnum() or chr.isspace() for chr in name):
+        error_message = "name not alphanumeric"
+    
+    elif not (any(x.isupper() for x in password) and any(x.islower() for x in password) and len(password) >= 6):
+        error_message = "password doesn't meet required complexity"
+    
+    elif name.startswith(" ") or name.endswith(" "):
+        error_message = "space at start/end"
 
-    elif len(password) < 6:
-        error_message = "Password not strong enough"
+    elif len(email) < 1:
+        error_message = "{} format is incorrect.'.format(email)"
+
     else:
         user = bn.get_user(email)
         if user:
@@ -49,7 +53,7 @@ def register_post():
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('register.html', message=error_message)
+        return render_template('login.html', message=error_message)
     else:
         bn.register_user(email,name,password,password2, 5000)
         return redirect('/login')
