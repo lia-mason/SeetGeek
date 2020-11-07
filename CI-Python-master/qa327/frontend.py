@@ -82,9 +82,14 @@ def logout():
         session.pop('logged_in', None)
     return redirect('/')
 
-@app.route('/sell', methods=['POST'])
-def sell():
-    return redirect('/')
+
+# @app.route('/sell', methods=['POST'])
+# def sell():
+#     name = request.form.get('name')
+#     quantity = request.form.get('quantity')
+#     price = request.form.get('price')
+#     expiration = request.form.get('expiration')
+#     return redirect('/')
 
 
 def authenticate(inner_function):

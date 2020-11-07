@@ -5,26 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<h2 id="welcome-header">Welcome {{ user.name }} !</h2>
+<h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
 
 <h2 >Here are all available tickets</h2>
-
-<h4 >User balance: 5000</h4>
-
-<h4><u>Sell a ticket</u></h4>
-
-<form method="post">
-  <label for="name">Name:</label><br>
-  <input type="text" id="name" name="name"><br>
-  <label for="quantity">Quantity:</label><br>
-  <input type="text" id="quantity" name="quantity"><br>
-    <label for="price">Price:</label><br>
-      <input type="text" id="price" name="price"><br>
-    <label for="date">Expiration Date:</label><br>
-  <input type="text" id="date" name="date"><br><br>
-    <input type="submit" value="Submit"><br>
-</form><br>
 
 <div id="tickets">
 {% for ticket in tickets %}
@@ -33,6 +17,36 @@
     </div>
 {% endfor %}
 </div>
+
+<h4 >User balance: 5000</h4>
+
+<h4><u>Sell a ticket</u></h4>
+
+<form method="post">
+  <label for="tname">Name:</label><br>
+  <input type="text" id="tname" name="name"><br>
+  <label for="tquantity">Quantity:</label><br>
+  <input type="text" id="tquantity" name="quantity"><br>
+    <label for="tprice">Price:</label><br>
+      <input type="text" id="tprice" name="price"><br>
+    <label for="texpiration">Expiration Date:</label><br>
+  <input type="text" id="texpiration" name="expiration"><br><br>
+  <a href='/sell' class="btn btn-primary" id="tbtn-submit" >Submit</a>
+</form><br>
+
+<h4><u>Update an existing ticket</u></h4>
+
+<form method="post">
+  <label for="uname">Name:</label><br>
+  <input type="text" id="uname" name="name"><br>
+  <label for="uquantity">Quantity:</label><br>
+  <input type="text" id="uquantity" name="quantity"><br>
+    <label for="uprice">Price:</label><br>
+      <input type="text" id="uprice" name="price"><br>
+    <label for="uexpiration">Expiration Date:</label><br>
+  <input type="text" id="uexpiration" name="expiration"><br><br>
+  <a href='/sell' class="btn btn-primary" id="btn-submit" >Submit</a>
+</form><br>
 
 <a href='/logout'>logout</a>
 {% endblock %}
