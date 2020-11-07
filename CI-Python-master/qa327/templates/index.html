@@ -10,6 +10,7 @@
 
 <h2 >Here are all available tickets</h2>
 
+
 <div id="tickets">
 {% for ticket in tickets %}
     <div>
@@ -17,6 +18,22 @@
     </div>
 {% endfor %}
 </div>
+
+<h3 >Buy Form</h3>
+</body>
+    <form>
+        <div>
+            <label>Name</label>
+            <input>
+        </div>
+        <div>
+            <label>Number of Tickets</label>
+        <input>
+        </div>
+        <button>Submit</button>
+
+    </form>
+
 
 <a href='/logout'>logout</a>
 {% endblock %}
