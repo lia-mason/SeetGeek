@@ -37,13 +37,14 @@ def register_post():
         user = bn.get_user(email)
         if user:
             error_message = "User exists"
-        elif not bn.register_user(email, name, password, password2):
+        elif bn.register_user(email, name, password, password2) is not None:
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
         return render_template('register.html', message=error_message)
     else:
+        bn.register_user(email,name,password,password2,5000)
         return redirect('/login')
 
 
@@ -80,6 +81,20 @@ def login_post():
 def logout():
     if 'logged_in' in session:
         session.pop('logged_in', None)
+    return redirect('/')
+
+
+@app.route('/sell', methods=['GET'])
+def sell_get():
+    return redirect('/')
+
+
+@app.route('/sell', methods=['POST'])
+def sell_post():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expiration = request.form.get('expiration')
     return redirect('/')
 
 
