@@ -30,10 +30,10 @@ def register_post():
 
     # verifies that password and password2 are the same
     if password != password2:
-        error_message = "{} format is incorrect.'.format(password)"
+        error_message = "password1 and password2 don't match"
     #verifies that the username is between 2 and 20 characters
     elif len(name) <= 2 or len(name) >= 20:
-        error_message = "{} format is incorrect.'.format(name)"
+        error_message = "username too short or too long"
     #each character of the username has to be alphanumeric or a space
     elif not all(chr.isalnum() or chr.isspace() for chr in name):
         error_message = "name not alphanumeric"
@@ -45,7 +45,7 @@ def register_post():
         error_message = "space at start/end"
     #email cannot be empty
     elif len(email) < 1:
-        error_message = "{} format is incorrect.'.format(email)"
+        error_message = "email field is empty"
     #verifies that the email has valid format
     elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         error_message = "email not valid"
