@@ -116,6 +116,12 @@ def authenticate(inner_function):
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
+#get info from buy form 
+@app.route('/sell', methods=['POST'])
+def buy_submit():
+     name = request.form.get('name')
+     quantity = request.form.get('quantity')
+     return redirect('/')
 
 @app.route('/')
 @authenticate
