@@ -18,11 +18,11 @@
 {% endfor %}
 </div>
 
-<h4 >User balance: 5000</h4>
+<h4 >User balance: {{ user.balance }}</h4>
 
 <h4><u>Sell a ticket</u></h4>
 
-<form method="post">
+<form action="/sell" method="post">
   <label for="tname">Name:</label><br>
   <input type="text" id="tname" name="name"><br>
   <label for="tquantity">Quantity:</label><br>
@@ -36,7 +36,7 @@
 
 <h4><u>Update an existing ticket</u></h4>
 
-<form method="post">
+<form action="/sell" method="post">
   <label for="uname">Name:</label><br>
   <input type="text" id="uname" name="name"><br>
   <label for="uquantity">Quantity:</label><br>
