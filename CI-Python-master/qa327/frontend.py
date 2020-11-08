@@ -1,7 +1,10 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
+
+import string
 import re #importing class re to be able to match fields to regex to place restraints
+
 
 """
 This file defines the front-end part of the service.
@@ -25,25 +28,39 @@ def register_post():
     password2 = request.form.get('password2')
     error_message = None
 
-
+    # verifies that password and password2 are the same
     if password != password2:
-        error_message = "The passwords do not match"
-
+        error_message = "{} format is incorrect.'.format(password)"
+    #verifies that the username is between 2 and 20 characters
+    elif len(name) <= 2 or len(name) >= 20:
+        error_message = "{} format is incorrect.'.format(name)"
+    #each character of the username has to be alphanumeric or a space
+    elif not all(chr.isalnum() or chr.isspace() for chr in name):
+        error_message = "name not alphanumeric"
+    #verifies that the password has atleast one upper and lower character and the password has length gt than 6
+    elif not (any(x.isupper() for x in password) and any(x.islower() for x in password) and len(password) >= 6):
+        error_message = "password doesn't meet required complexity"
+    #username cannot have spaces at start or end
+    elif name.startswith(" ") or name.endswith(" "):
+        error_message = "space at start/end"
+    #email cannot be empty
     elif len(email) < 1:
-        error_message = "Email format error"
+        error_message = "{} format is incorrect.'.format(email)"
+    #verifies that the email has valid format
+    elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        error_message = "email not valid"
 
-    elif len(password) < 1:
-        error_message = "Password not strong enough"
     else:
         user = bn.get_user(email)
+        #verifies that the email does not already exist
         if user:
-            error_message = "User exists"
-        elif bn.register_user(email, name, password, password2) is not None:
+            error_message = "this email has already been used"
+        elif not bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('register.html', message=error_message)
+        return render_template('login.html', message=error_message)
     else:
         bn.register_user(email,name,password,password2,5000)
         return redirect('/login')

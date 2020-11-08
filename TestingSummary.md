@@ -53,6 +53,7 @@
 | If the email already exists, show message 'this email has been ALREADY used'                                                            | R2.10.2 | check if email already exists                                                                                                                                                                                                                                               |
 | If no error regarding the inputs following the rules above,  create a new user, set the balance to 5000, and go back to the /login page | R2.11.1 | check if any input errors                                                                                                                                                                                                                                                   |
 | If no error regarding the inputs following the rules above,  create a new user, set the balance to 5000, and go back to the /login page | R2.11.2 | check if any input errors                                                                                                                                                                                                                                                   |
+
 | If the user is not logged in, redirect to login page                                                                                                          | R3.1  | Check if user is logged out, if they are, redirect to login page                                           |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|------------------------------------------------------------------------------------------------------------|
 | This page shows a header 'Hi {}’.format(user.name)                                                                                                            | R3.2  | Check if header is displayed if user is logged in                                                          |
@@ -78,6 +79,7 @@
 | For any formatting errors, render the login page and show the message 'email/password format is incorrect.'                                          	| R1.9  	| Check that error message is displayed for invalid email or password format       	|
 | If email/password are correct, redirect to /                                                                                                         	| R1.10 	| Check that user can login to profile page with correct email and password        	|
 | Otherwise, redict to /login and show message 'email/password combination incorrect'                                                                  	| R1.11 	| Check that error message is displayed for invalid email and password combination 	|
+
 
 
 
