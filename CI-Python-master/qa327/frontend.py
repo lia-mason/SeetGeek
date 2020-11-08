@@ -1,7 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
-import re
+import re #importing class re to be able to match fields to regex to place restraints
 
 """
 This file defines the front-end part of the service.
@@ -58,13 +58,13 @@ def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
     error_message = None
-
+#this is  to  set restrainst on the email so that it follows requirements in R1
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         error_message = "email/password format is incorrect"
-
+#this sets restraints on the password so that it cant be less than 6 characters
     if len(password) < 6:
         error_message = 'email/password format is incorrect'
-
+#this if is to set restraints on the password by asserting which characters can be included 
     if not (any(x.isupper() for x in password) and any(x.islower() for x in password) and len(password) >= 6):
         error_message = 'email/password format is incorrect'
     
