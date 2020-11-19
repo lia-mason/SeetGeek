@@ -1,8 +1,6 @@
 # SeetGeek
 
-Repo Owner ID: 57345244
-
-[![](https://github.com/repo_owner_id/repo_name/workflows/Python%20application/badge.svg)]()
+[![](https://github.com/57345244/SeetGeek/workflows/Python%20application/badge.svg)]()
 
 CISC 327 Course Project
 
