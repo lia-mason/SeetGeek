@@ -1,6 +1,6 @@
 # SeetGeek
 
-[![](https://github.com/57345244/SeetGeek/workflows/Python%20application/badge.svg)]()
+[![](https://github.com/lia-mason/SeetGeek/workflows/Python%20application/badge.svg)]()
 
 CISC 327 Course Project
 
