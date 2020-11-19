@@ -39,8 +39,8 @@ class FrontEndHomePageTest(BaseCase):
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_header(self, *_):
         """
-        This is a sample front end unit test to login to home page
-        and verify if the tickets are correctly listed.
+        This is a front end unit test to login to home page
+        and verify if the welcome header is displayed correctly.
         """
         # open login page
         self.open(base_url + '/login')
@@ -50,19 +50,11 @@ class FrontEndHomePageTest(BaseCase):
         # click enter button
         self.click('input[type="submit"]')
 
-        # after clicking on the browser (the line above)
-        # the front-end code is activated
-        # and tries to call get_user function.
-        # The get_user function is supposed to read data from database
-        # and return the value. However, here we only want to test the
-        # front-end, without running the backend logics.
-        # so we patch the backend to return a specific user instance,
-        # rather than running that program. (see @ annotations above)
-
         # open home page
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
+        # test for welcome header message ("Hi {username}")
         self.assert_text("Hi test_frontend", "#welcome-header")
 
 #     @patch('qa327.backend.get_user', return_value=test_user)
