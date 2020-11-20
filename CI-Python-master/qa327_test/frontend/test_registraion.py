@@ -23,7 +23,7 @@ Annotate @patch before unit tests can mock backend methods (for that testing fun
 
 # Moch a sample user
 test_user = User(
-    email='test_frontend@test.com',
+    email='jivanji_adnan@test.com',
     name='test_frontend',
     password=generate_password_hash('test_frontend')
 )
@@ -104,3 +104,302 @@ class FrontEndHomePageTest(BaseCase):
     #     # make sure it shows proper error message
     #     self.assert_element("#message")
     #     self.assert_text("login failed", "#message")
+
+class RegistrationTest(BaseCase):
+           
+    #This function checks for an error message when password1 and password2 don't match
+    def test_passwords_dont_match(self, *_):
+        #open register page
+        self.open(base_url + '/register')
+        #fill email and passwords that don't match
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "test_frontend")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualAssura327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows correct error message
+        self.assert_element("#message")
+        self.assert_text("password1 and password2 don't match", "#message")
+    
+    #This function checks whether the registration was successful when both passwords match
+    def test_passwords_match(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email and passwords that match
+        self.type("#email", "edinsoncavanie@testing.com")
+        self.type("#name", "test frontend")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and checks if no error message is displayed
+        self.assert_element("#message")
+        self.assert_text("Please login", "#message")
+
+    #This function checks whether the registration fails when username field is empty
+    def test_empty_username(self, *_):
+        #open register page
+        self.open(base_url + '/register')
+        #leave username field as empty
+        self.type("#email", "test_frooonten@testing.com")
+        self.type("#name", "")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+        #Since the field username is required, page wont be redirected to login.
+        #By checking if regsitration form is still being displayed through one of its elements,
+        #we have verified that the form submission failed.
+        self.assert_element('#name')
+
+    #This function checks whether the registration fails when password field is empty
+    def test_empty_password(self, *_):
+        #open register page
+        self.open(base_url + '/register')
+        #leave password field as empty
+        self.type("#email", "test_frrrronten@testing.com")
+        self.type("#name", "AmaarJivanji")
+        self.type("#password", "")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+        #Since the field username is required, page wont be redirected to login.
+        #By checking if regsitration form is still being displayed through one of its elements,
+        #we have verified that the form submission failed.
+        self.assert_element('#name')
+    
+    #This function checks whether the registration fails when email field is empty
+    def test_empty_email(self, *_):
+        #open register page
+        self.open(base_url + '/register')
+        #leave email field as empty
+        self.type("#email", "")
+        self.type("#name", "AmaarJivanji")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+        #Since the field username is required, page wont be redirected to login.
+        #By checking if regsitration form is still being displayed through one of its elements,
+        #we have verified that the form submission failed.
+        self.assert_element('#name')
+    
+    #This function checks whether the registration fails when username is lte 2 characters
+    def test_short_username(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, passwords and username shorter than 3 characters
+        self.type("#email", "test_frrronten@testing.com")
+        self.type("#name", "ab")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows correct error message
+        self.assert_element("#message")
+        self.assert_text("username too short or too long", "#message")
+    
+    #This function checks whether the registration fails when username gte 20 characters
+    def test_long_username(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, passwords and username greater than 19 characters
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "amaarmoizmohammedalijivanji")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows correct error message
+        self.assert_element("#message")
+        self.assert_text("username too short or too long", "#message")
+    
+    #This function checks whether registration fails when username has space at beginning
+    def test_space_beginning(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, passwords and username with space at beginning
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", " paulPogba")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("space at start/end", "#message")
+    
+    #This function checks whether registration fails when username has space at the end
+    def test_space_end(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, passwords and username with space at end
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "paulPogba ")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("space at start/end", "#message")
+    
+    #This function checks whether registration fails when password doesn't have any special characters
+    def test_password_without_specialcharacters(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, username and password with no special characters
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "AmaarJivanji")
+        self.type("#password", "QualityAssurance327")
+        self.type("#password2", "QualityAssurance327")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("password doesn't meet required complexity", "#message")
+    
+    #This function checks whether registration fails when password has no uppercase letter
+    def test_password_without_uppercase(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, username and password with no uppercase letters
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "AmaarJivanji")
+        self.type("#password", "qualityassurance327$")
+        self.type("#password2", "qualityassurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("password doesn't meet required complexity", "#message")
+
+    #This function checks whether registration fails when password has no lowercase letter
+    def test_password_without_lowercase(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, username and password with no lowercase letters
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "AmaarJivanji")
+        self.type("#password", "QUALITYASSURANCE327$")
+        self.type("#password2", "QUALITYASSURANCE327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("password doesn't meet required complexity", "#message")
+
+    #This functions checks whether registration fails when password is lt 6 characters
+    def test_password_short(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, username and password with 5 characters
+        self.type("#email", "test_frontend@testing.com")
+        self.type("#name", "AmaarJivanjishort")
+        self.type("#password", "Qua$3")
+        self.type("#password2", "Qua$3")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("password doesn't meet required complexity", "#message")
+    
+    #This function checks whether registration succeeds when passwords inputted are valid
+    def test_valid_password(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill email, passwords and username - all valid
+        self.type("#email", "zebradonkey@testing.com")
+        self.type("#name", "AmaarJivanji")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and checks if no error message is displayed
+        self.assert_element("#message")
+        self.assert_text("Please login", "#message")
+    
+    #This function checks whether registration fails when email submitted is already taken
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_email_already_used(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill passwords, username and email that has already been used
+        self.type("#email", "jivanji_adnan@test.com")
+        self.type("#name", "AmaariiiJivanji")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("this email has already been used", "#message")
+    
+    #This function checks whether the email follows the addr-spec defined in RFC 5322   
+    def test_valid_email(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill invalid email
+        self.type("#email", "jicom")
+        self.type("#name", "AmaariiiJivanji")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("email not valid", "#message")
+    
+    #This function checks whether registrations fails when username is not alphanumeric
+    def test_username_notalnum(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill invalid email
+        self.type("#email", "amaarsmolsky@hotmail.com")
+        self.type("#name", "Ama%4rJIVANJI")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened and check if message shows error message
+        self.assert_element("#message")
+        self.assert_text("name not alphanumeric", "#message")
+    #This function confirms that the user balance is set to 5000 when new user is registered
+    def test_registration_and_userbalance(self, *_):
+         #open register page
+        self.open(base_url + '/register')
+        #fill invalid email
+        self.type("#email", "LiaAmaar123@gmail.com")
+        self.type("#name", "Muhammad Ahmed")
+        self.type("#password", "QualityAssurance327$")
+        self.type("#password2", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #login page is opened 
+        #fill email and password
+        self.type("#email", "LiaAmaar123@gmail.com")
+        self.type("#password", "QualityAssurance327$")
+        #click enter button
+        self.click('input[type="submit"]')
+
+        #user profile page is opened
+        #verify that user balance is set to 5000
+        self.assert_element("#ubalance")
+        self.assert_text(5000, "#ubalance")
+      

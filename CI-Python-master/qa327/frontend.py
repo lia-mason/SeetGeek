@@ -38,7 +38,7 @@ def register_post():
     elif not all(chr.isalnum() or chr.isspace() for chr in name):
         error_message = "name not alphanumeric"
     #verifies that the password has atleast one upper and lower character and the password has length gt than 6
-    elif not (any(x.isupper() for x in password) and any(x.islower() for x in password) and len(password) >= 6):
+    elif not (any(x.isupper() for x in password) and any(x.islower() for x in password) and any(x in string.punctuation for x in password) and len(password) >= 6):
         error_message = "password doesn't meet required complexity"
     #username cannot have spaces at start or end
     elif name.startswith(" ") or name.endswith(" "):
