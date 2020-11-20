@@ -85,7 +85,7 @@ test_tickets = [
     #     self.assert_text("login failed", "#message")
 
 class RegistrationTest(BaseCase):
-       
+           
     #This function checks for an error message when password1 and password2 don't match
     def test_passwords_dont_match(self, *_):
         #open register page
@@ -372,7 +372,7 @@ class RegistrationTest(BaseCase):
 
         #login page is opened 
         #fill email and password
-        self.type("#email", "Muhammad123@gmail.com")
+        self.type("#email", "LiaAmaar123@gmail.com")
         self.type("#password", "QualityAssurance327$")
         #click enter button
         self.click('input[type="submit"]')
@@ -381,5 +381,4 @@ class RegistrationTest(BaseCase):
         #verify that user balance is set to 5000
         self.assert_element("#ubalance")
         self.assert_text(5000, "#ubalance")
-    
-        
+      
