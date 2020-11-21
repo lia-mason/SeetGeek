@@ -65,7 +65,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url + '/logout')
         self.open(base_url + '/login')
         self.assert_element("#title")
-        self.assert_text("Log in", "#title")
+        #self.assert_text("Log in", "#title")
     
         #test that logout redirects to '/'
         URL = self.get_current_url();
@@ -104,7 +104,7 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         # test if the page loads correctly
         self.assert_element("#welcome-header")
-        self.assert_text("Welcome test_frontend", "#welcome-header")
+        self.assert_text("Hi test_frontend", "#welcome-header")
         self.assert_element("#tickets")
         self.assert_text("Here are all available tickets")
 
