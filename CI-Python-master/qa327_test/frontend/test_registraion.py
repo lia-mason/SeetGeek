@@ -58,7 +58,6 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text("Hi test_frontend", "#welcome-header")
         
      @patch('qa327.backend.get_user', return_value=test_user)
-     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
      def test_login(self, *_):
         """
         R3.1 This will test the login page and test if the user gets redirected to login page if not logged in
