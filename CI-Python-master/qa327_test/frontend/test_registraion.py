@@ -547,7 +547,7 @@ class RegistrationTest(BaseCase):
          #open register page
         self.open(base_url + '/register')
         #fill invalid email
-        self.type("#email", "LiaAmaar1234@gmail.com")
+        self.type("#email", "LiaAmaar1238@gmail.com")
         self.type("#name", "Muhammad Ahmed")
         self.type("#password", "QualityAssurance327$")
         self.type("#password2", "QualityAssurance327$")
