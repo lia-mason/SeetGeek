@@ -97,17 +97,7 @@ class FrontEndHomePageTest(BaseCase):
          self.type("#password", "test_frontend")
          # click enter button
          self.click('input[type="submit"]')
-    
-         # after clicking on the browser (the line above)
-         # the front-end code is activated
-         # and tries to call get_user function.
-         # The get_user function is supposed to read data from database
-         # and return the value. However, here we only want to test the
-         # front-end, without running the backend logics.
-         # so we patch the backend to return a specific user instance,
-         # rather than running that program. (see @ annotations above)
-    
-    
+            
          # open home page
          self.open(base_url)
          # test if the page loads correctly
