@@ -34,7 +34,7 @@ test_tickets = [
 ]
 
 
-   class FrontEndHomePageTest(BaseCase):
+class FrontEndHomePageTest(BaseCase):
 
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_header(self, *_):
@@ -57,7 +57,6 @@ test_tickets = [
         # test for welcome header message ("Hi {username}")
         self.assert_text("Hi test_frontend", "#welcome-header")
 
-
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_login(self, *_):
         """
@@ -67,17 +66,17 @@ test_tickets = [
         self.open(base_url + '/login')
         self.assert_element("#title")
         self.assert_text("Log in", "#title")
-
-        # test that logout redirects to '/'
+    
+        #test that logout redirects to '/'
         URL = self.get_current_url();
         self.assert_equal(URL, base_url + '/');
 
-        @patch('qa327.backend.get_user', return_value=test_user)
-        @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+    @patch('qa327.backend.get_user', return_value=test_user)
+    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_show_user_balance(self, *_):
         """
-          R3.3 This will test whether the user balance displays
-          """
+        R3.3 This will test whether the user balance displays
+        """
         self.open(base_url + '/login')
         self.type("#email", "test_frontend@test.com")
         self.type("#password", "test_frontend")
@@ -86,7 +85,6 @@ test_tickets = [
         # test if the page loads correctly
         self.assert_element("#welcome-header")
         self.assert_element("#ubalance")
-
 
     @patch('qa327.backend.get_user', return_value=test_user)
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -101,7 +99,7 @@ test_tickets = [
         self.type("#password", "test_frontend")
         # click enter button
         self.click('input[type="submit"]')
-
+    
         # open home page
         self.open(base_url)
         # test if the page loads correctly
@@ -115,8 +113,8 @@ test_tickets = [
     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     def test_buy_form(self, *_):
         """
-           R3.7 This will test if buy form is displaying
-           """
+        R3.7 This will test if buy form is displaying
+        """
         # open login page
         self.open(base_url + '/login')
         # fill email and password
@@ -137,50 +135,51 @@ test_tickets = [
         self.click("#t-submit")
         self.assert_element("#welcome-header")
 
+
 #     @patch('qa327.backend.get_user', return_value=test_user)
 #     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-# def test_login_success(self, *_):
-#     """
-#     This is a sample front end unit test to login to home page
-#     and verify if the tickets are correctly listed.
-#     """
-#     # open login page
-#     self.open(base_url + '/login')
-#     # fill email and password
-#     self.type("#email", "test_frontend@test.com")
-#     self.type("#password", "test_frontend")
-#     # click enter button
-#     self.click('input[type="submit"]')
-#
-#     # after clicking on the browser (the line above)
-#     # the front-end code is activated
-#     # and tries to call get_user function.
-#     # The get_user function is supposed to read data from database
-#     # and return the value. However, here we only want to test the
-#     # front-end, without running the backend logics.
-#     # so we patch the backend to return a specific user instance,
-#     # rather than running that program. (see @ annotations above)
-#
-#
-#     # open home page
-#     self.open(base_url)
-#     # test if the page loads correctly
-#     self.assert_element("#welcome-header")
-#     self.assert_text("Welcome test_frontend", "#welcome-header")
-#     self.assert_element("#tickets div h4")
-#     self.assert_text("t1 100", "#tickets div h4")
+    # def test_login_success(self, *_):
+    #     """
+    #     This is a sample front end unit test to login to home page
+    #     and verify if the tickets are correctly listed.
+    #     """
+    #     # open login page
+    #     self.open(base_url + '/login')
+    #     # fill email and password
+    #     self.type("#email", "test_frontend@test.com")
+    #     self.type("#password", "test_frontend")
+    #     # click enter button
+    #     self.click('input[type="submit"]')
+    #
+    #     # after clicking on the browser (the line above)
+    #     # the front-end code is activated
+    #     # and tries to call get_user function.
+    #     # The get_user function is supposed to read data from database
+    #     # and return the value. However, here we only want to test the
+    #     # front-end, without running the backend logics.
+    #     # so we patch the backend to return a specific user instance,
+    #     # rather than running that program. (see @ annotations above)
+    #
+    #
+    #     # open home page
+    #     self.open(base_url)
+    #     # test if the page loads correctly
+    #     self.assert_element("#welcome-header")
+    #     self.assert_text("Welcome test_frontend", "#welcome-header")
+    #     self.assert_element("#tickets div h4")
+    #     self.assert_text("t1 100", "#tickets div h4")
 
-# @patch('qa327.backend.get_user', return_value=test_user)
-# @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-# def test_login_password_failed(self, *_):
-#     """ Login and verify if the tickets are correctly listed."""
-#     # open login page
-#     self.open(base_url + '/login')
-#     # fill wrong email and password
-#     self.type("#email", "test_frontend@test.com")
-#     self.type("#password", "wrong_password")
-#     # click enter button
-#     self.click('input[type="submit"]')
-#     # make sure it shows proper error message
-#     self.assert_element("#message")
-#     self.assert_text("login failed", "#message")
+    # @patch('qa327.backend.get_user', return_value=test_user)
+    # @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+    # def test_login_password_failed(self, *_):
+    #     """ Login and verify if the tickets are correctly listed."""
+    #     # open login page
+    #     self.open(base_url + '/login')
+    #     # fill wrong email and password
+    #     self.type("#email", "test_frontend@test.com")
+    #     self.type("#password", "wrong_password")
+    #     # click enter button
+    #     self.click('input[type="submit"]')
+    #     # make sure it shows proper error message
+    #     self.assert_element("#message")
+    #     self.assert_text("login failed", "#message")
