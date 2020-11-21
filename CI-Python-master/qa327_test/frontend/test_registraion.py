@@ -57,6 +57,96 @@ class FrontEndHomePageTest(BaseCase):
         # test for welcome header message ("Hi {username}")
         self.assert_text("Hi test_frontend", "#welcome-header")
 
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_logout(self, *_):
+        """
+        This is a front end unit test to login to home page
+        and verify if the logout link is displayed correctly.
+        """
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "test_frontend@test.com")
+        self.type("#password", "test_frontend")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        # test for logout link
+        self.assert_element("#logout")
+
+        URL = self.get_current_url();
+        self.assert_equal(URL, base_url + '/'); #test that logout redirects to '/'
+
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_sell_form(self, *_):
+        """
+        This is a front end unit test to login to home page
+        and verify if the sell form is displayed correctly.
+        """
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "test_frontend@test.com")
+        self.type("#password", "test_frontend")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        # test for sell form elements
+        # enter name, quantity, price, expiration
+        # click submit
+        # verify that ??
+        self.assert_element("#tname")
+        self.type("#tname", "ticket_name")
+        self.assert_element("#tquantity")
+        self.type("#tquantity", "1")
+        self.assert_element("#tprice")
+        self.type("#tprice", "50.00")
+        self.assert_element("#texpiration")
+        self.type("#texpiration", "02/03/21")
+        self.click("#ticket-btn-submit")
+        self.assert_element("#welcome-header")
+
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_update_form(self, *_):
+        """
+        This is a front end unit test to login to home page
+        and verify if the update form is displayed correctly.
+        """
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "test_frontend@test.com")
+        self.type("#password", "test_frontend")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open home page
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        # test for update form elements
+        # enter name, quantity, price, expiration
+        # click submit
+        # verify that ??
+        self.assert_element("#uname")
+        self.type("#uname", "ticket_name")
+        self.assert_element("#uquantity")
+        self.type("#uquantity", "3")
+        self.assert_element("#uprice")
+        self.type("#uprice", "30.00")
+        self.assert_element("#uexpiration")
+        self.type("#uexpiration", "03/04/22")
+        self.click("#update-btn-submit")
+        self.assert_element("#welcome-header")
+
 #     @patch('qa327.backend.get_user', return_value=test_user)
 #     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
     # def test_login_success(self, *_):
