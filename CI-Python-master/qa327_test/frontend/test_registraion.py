@@ -58,34 +58,6 @@ class FrontEndHomePageTest(BaseCase):
         self.assert_text("Hi test_frontend", "#welcome-header")
 
     @patch('qa327.backend.get_user', return_value=test_user)
-    def test_login(self, *_):
-        """
-        R3.1 This will test the login page and test if the user gets redirected to login page if not logged in
-        """
-        self.open(base_url + '/logout')
-        self.open(base_url + '/login')
-        self.assert_element("#title")
-        #self.assert_text("Log in", "#title")
-    
-        #test that logout redirects to '/'
-        URL = self.get_current_url();
-        self.assert_equal(URL, base_url + '/');
-
-    @patch('qa327.backend.get_user', return_value=test_user)
-    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-    def test_show_user_balance(self, *_):
-        """
-        R3.3 This will test whether the user balance displays
-        """
-        self.open(base_url + '/login')
-        self.type("#email", "test_frontend@test.com")
-        self.type("#password", "test_frontend")
-        self.click('input[type="submit"]')
-        self.open(base_url)
-        # test if the page loads correctly
-        self.assert_element("#welcome-header")
-        #self.assert_element("#ubalance")
-
     def test_logout(self, *_):
         """
         This is a front end unit test to login to home page
@@ -102,12 +74,41 @@ class FrontEndHomePageTest(BaseCase):
         # open home page
         self.open(base_url)
         # test if the page loads correctly
-        self.assert_element("#welcome-header")
-        # test for logout link
-        self.assert_element("#logout")
 
-        URL = self.get_current_url();
-        self.assert_equal(URL, base_url + '/'); #test that logout redirects to '/'
+        # test for logout link
+        self.assert_element("#welcome-header")
+        self.assert_element("#logout")
+        element = self.find_element("#logout")
+        assert element.get_attribute("href") == base_url + "/logout"
+
+        # test that logout redirects to '/'
+        #URL = self.get_current_url();
+        #self.assert_equal(URL, base_url + '/');
+
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_login(self, *_):
+        """
+        R3.1 This will test the login page and test if the user gets redirected to login page if not logged in
+        """
+        self.open(base_url + '/logout')
+        self.open(base_url + '/login')
+        self.assert_element("#title")
+        #self.assert_text("Log in", "#title")
+
+    @patch('qa327.backend.get_user', return_value=test_user)
+    @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+    def test_show_user_balance(self, *_):
+        """
+        R3.3 This will test whether the user balance displays
+        """
+        self.open(base_url + '/login')
+        self.type("#email", "test_frontend@test.com")
+        self.type("#password", "test_frontend")
+        self.click('input[type="submit"]')
+        self.open(base_url)
+        # test if the page loads correctly
+        self.assert_element("#welcome-header")
+        self.assert_element("#ubalance")
 
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_sell_form(self, *_):
@@ -148,6 +149,16 @@ class FrontEndHomePageTest(BaseCase):
         """
         R3.5 check to see if tickets displays
         """
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "test_frontend@test.com")
+        self.type("#password", "test_frontend")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open home page
+        self.open(base_url)
         self.assert_text("Hi test_frontend", "#welcome-header")
         self.assert_element("#tickets")
         self.assert_text("Here are all available tickets")
@@ -192,12 +203,22 @@ class FrontEndHomePageTest(BaseCase):
         """
         R3.7 This will test if buy form is displaying
         """
+        # open login page
+        self.open(base_url + '/login')
+        # fill email and password
+        self.type("#email", "test_frontend@test.com")
+        self.type("#password", "test_frontend")
+        # click enter button
+        self.click('input[type="submit"]')
+
+        # open home page
+        self.open(base_url)
         self.assert_element("#name")
-        self.type("#name")
+        self.type("#name", "test_name")
         self.assert_element("#quantity")
         self.type("#quantity", "1")
         self.click("#t-submit")
-        self.assert_element("#welcome-header")
+        #self.assert_element("#welcome-header")
 
 #     @patch('qa327.backend.get_user', return_value=test_user)
 #     @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -270,7 +291,7 @@ class RegistrationTest(BaseCase):
          #open register page
         self.open(base_url + '/register')
         #fill email and passwords that match
-        self.type("#email", "edinsoncavanie@testing.com")
+        self.type("#email", "edinsoncavanie3@testing.com")
         self.type("#name", "test frontend")
         self.type("#password", "QualityAssurance327$")
         self.type("#password2", "QualityAssurance327$")
@@ -462,7 +483,7 @@ class RegistrationTest(BaseCase):
          #open register page
         self.open(base_url + '/register')
         #fill email, passwords and username - all valid
-        self.type("#email", "zebradonkey@testing.com")
+        self.type("#email", "zebradonkey3@testing.com")
         self.type("#name", "AmaarJivanji")
         self.type("#password", "QualityAssurance327$")
         self.type("#password2", "QualityAssurance327$")
@@ -526,7 +547,7 @@ class RegistrationTest(BaseCase):
          #open register page
         self.open(base_url + '/register')
         #fill invalid email
-        self.type("#email", "LiaAmaar123@gmail.com")
+        self.type("#email", "LiaAmaar1234@gmail.com")
         self.type("#name", "Muhammad Ahmed")
         self.type("#password", "QualityAssurance327$")
         self.type("#password2", "QualityAssurance327$")
