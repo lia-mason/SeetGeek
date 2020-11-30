@@ -556,7 +556,7 @@ class RegistrationTest(BaseCase):
 
         #login page is opened 
         #fill email and password
-        self.type("#email", "LiaAmaar123@gmail.com")
+        self.type("#email", "LiaAmaar1238@gmail.com")
         self.type("#password", "QualityAssurance327$")
         #click enter button
         self.click('input[type="submit"]')
