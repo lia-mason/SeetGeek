@@ -127,6 +127,20 @@ def sell_post():
     return redirect('/')
 
 
+@app.route('/update', methods=['GET'])
+def update_get():
+    return redirect('/')
+
+
+@app.route('/update', methods=['POST'])
+def update_post():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expiration = request.form.get('expiration')
+    return redirect('/')
+
+
 def authenticate(inner_function):
     """
     :param inner_function: any python function that accepts a user object
@@ -160,12 +174,15 @@ def authenticate(inner_function):
     # return the wrapped version of the inner_function:
     return wrapped_inner
 
-#getting info from buy form 
+@app.route('/buy', methods=['GET'])
+def buy_get():
+    return redirect('/')
+
 @app.route('/buy', methods=['POST'])
-def buy_submit():
-     name = request.form.get('name')
-     quantity = request.form.get('quantity')
-     return redirect('/')
+def buy_post():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    return redirect('/')
 
 @app.route('/')
 @authenticate
