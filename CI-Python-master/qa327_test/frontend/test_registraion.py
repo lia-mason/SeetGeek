@@ -217,7 +217,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#name", "test_name")
         self.assert_element("#quantity")
         self.type("#quantity", "1")
-        self.click("#t-submit")
+        self.click("#buy-btn-submit")
         #self.assert_element("#welcome-header")
 
 #     @patch('qa327.backend.get_user', return_value=test_user)
@@ -547,7 +547,7 @@ class RegistrationTest(BaseCase):
          #open register page
         self.open(base_url + '/register')
         #fill invalid email
-        self.type("#email", "LiaAmaar1238@gmail.com")
+        self.type("#email", "LiaAmaar1239@gmail.com")
         self.type("#name", "Muhammad Ahmed")
         self.type("#password", "QualityAssurance327$")
         self.type("#password2", "QualityAssurance327$")
@@ -556,7 +556,7 @@ class RegistrationTest(BaseCase):
 
         #login page is opened 
         #fill email and password
-        self.type("#email", "LiaAmaar1238@gmail.com")
+        self.type("#email", "LiaAmaar1239@gmail.com")
         self.type("#password", "QualityAssurance327$")
         #click enter button
         self.click('input[type="submit"]')
