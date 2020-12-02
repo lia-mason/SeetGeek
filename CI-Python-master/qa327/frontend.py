@@ -4,7 +4,7 @@ import qa327.backend as bn
 
 import string
 import re #importing class re to be able to match fields to regex to place restraints
-
+import datetime #allows to use datetime function to verify format of date
 
 """
 This file defines the front-end part of the service.
@@ -192,7 +192,9 @@ def buy_post():
     quantity = request.form.get('buyquantity')
     price = request.form.get('tprice')
     error_message = None
+    #returning a user object of the current session to get the current users email.
     email = session['logged_in']
+    #storing the returned user in a variable
     user = bn.get_user(email)
     #each character of the ticketname has to be alphanumeric or a space
     if not all(chr.isalnum() or chr.isspace() for chr in name):
@@ -206,12 +208,7 @@ def buy_post():
     #verifies that the quantity is more than 0 and less than/equal to 100.
     elif quantity <= 0 or quantity > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
-    #verifies that the price has to be of range [10,100]
-    #elif price < 10 or price > 100:
-        #error_message = "price not in range"
-    #verifies date is in correct format
-    #elif not (datetime.datetime.strptime(date_text, '%Y-%m-%d')):
-        #error_message = "Incorrect expiration date format"
+    #checks if the  user balance is more than the price of the ticket
     elif  user.balance < (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity):
         error_message = "The user does not have enough balance"
     if error_message:
