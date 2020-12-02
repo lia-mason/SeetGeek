@@ -7,10 +7,12 @@
 {% block content %}
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
+<h4>yo</h4>
+<h4 id='message'>Hi {{ message }}</h4>
 
 <h2 >Here are all available tickets</h2>
 
-<h3><u>Buy a ticket</u></h3>
+<h4><u>Buy a ticket</u></h4>
 
  <form action="/buy" method="post">
    <label for="name">Name:</label><br>

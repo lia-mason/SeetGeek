@@ -163,6 +163,30 @@ def update_post():
     quantity = request.form.get('quantity')
     price = request.form.get('price')
     expiration = request.form.get('expiration')
+    error_message = None
+
+    #Validating information submitted in update form
+
+    #Name of ticket has to be alphanumeric only
+    for char in name:
+        if not char.isalnum() or not char.isspace():
+            error_message = "The ticket name must be alphanumeric only."
+    #Name must have no spaces at the beginning or end
+    if name.startswith(" ") or name.endswith(" "):
+        error_message = "The ticket name can't begin or end with a space."
+    #Name of the ticket can't be longer than 60 characters
+    elif len(name) > 60:
+        error_message = "The ticket name can't be longer than 60 characters."
+    #Quantity has to be more than zero, and less than or equal to 100
+    elif quantity <= 0 or quantity > 100:
+        error_message = "The ticket quantity must be between 1 and 100 (inclusive)."
+    #Price has to be in the range 10-100
+    elif price < 10 or price > 100:
+        error_message = "The ticket price must be between 10 and 100 (inclusive)."
+    if error_message:
+        email = session['logged_in']
+        user = bn.get_user(email)
+        return render_template('index.html', message=error_message, user=user)
     return redirect('/')
 
 
