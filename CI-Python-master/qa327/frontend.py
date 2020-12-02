@@ -5,7 +5,7 @@ import datetime
 
 import string
 import re #importing class re to be able to match fields to regex to place restraints
-
+import datetime #allows to use datetime function to verify format of date
 
 """
 This file defines the front-end part of the service.
@@ -121,11 +121,36 @@ def sell_get():
 
 @app.route('/sell', methods=['POST'])
 def sell_post():
-    name = request.form.get('name')
-    quantity = request.form.get('quantity')
-    price = request.form.get('price')
-    expiration = request.form.get('expiration')
+    name = request.form.get('tname')
+    quantity = request.form.get('tquantity')
+    price = request.form.get('tprice')
+    expiration = request.form.get('texpiration')
+    error_message = None
+    #each character of the ticketname has to be alphanumeric or a space
+    if not all(chr.isalnum() or chr.isspace() for chr in name):
+        error_message = "name not alphanumeric"
+    #ticketname cannot have spaces at start or end
+    elif name.startswith(" ") or name.endswith(" "):
+        error_message = "space at start/end"
+    #verifies that the ticketname is between 6 and 60 characters
+    elif len(name) < 6 or len(name) > 60:
+        error_message = "username too short or too long"
+    #verifies that the quantity is more than 0 and less than/equal to 100.
+    elif quantity <= 0 or quantity > 100:
+        error_message = "quantity not between 1 and 100 (inclusive)"
+    #verifies that the price has to be of range [10,100]
+    elif price < 10 or price > 100:
+        error_message = "price not in range"
+    #verifies date is in correct format
+    elif not (datetime.datetime.strptime(date_text, '%Y-%m-%d')):
+        error_message = "Incorrect expiration date format"
+    if error_message:
+        return render_template('/', message=error_message)
+
+        
     return redirect('/')
+
+    
 
 
 @app.route('/update', methods=['GET'])
@@ -139,6 +164,7 @@ def update_post():
     quantity = request.form.get('quantity')
     price = request.form.get('price')
     expiration = request.form.get('expiration')
+
     
     #verifies date is in correct format
     if not (datetime.datetime.strptime(expiration, '%Y-%m-%d')):
@@ -147,6 +173,32 @@ def update_post():
     elif error_message:
        return render_template('/', message=error_message)
     
+
+    error_message = None
+
+    #Validating information submitted in update form
+
+    #Name of ticket has to be alphanumeric only
+    for char in name:
+        if not char.isalnum() or not char.isspace():
+            error_message = "The ticket name must be alphanumeric only."
+    #Name must have no spaces at the beginning or end
+    if name.startswith(" ") or name.endswith(" "):
+        error_message = "The ticket name can't begin or end with a space."
+    #Name of the ticket can't be longer than 60 characters
+    elif len(name) > 60:
+        error_message = "The ticket name can't be longer than 60 characters."
+    #Quantity has to be more than zero, and less than or equal to 100
+    elif quantity <= 0 or quantity > 100:
+        error_message = "The ticket quantity must be between 1 and 100 (inclusive)."
+    #Price has to be in the range 10-100
+    elif price < 10 or price > 100:
+        error_message = "The ticket price must be between 10 and 100 (inclusive)."
+    if error_message:
+        email = session['logged_in']
+        user = bn.get_user(email)
+        return render_template('index.html', message=error_message, user=user)
+      
     return redirect('/')
 
 
@@ -189,9 +241,34 @@ def buy_get():
 
 @app.route('/buy', methods=['POST'])
 def buy_post():
-    name = request.form.get('name')
-    quantity = request.form.get('quantity')
+
+    name = request.form.get('buyname')
+    quantity = request.form.get('buyquantity')
+    price = request.form.get('tprice')
+    error_message = None
+    #returning a user object of the current session to get the current users email.
+    email = session['logged_in']
+    #storing the returned user in a variable
+    user = bn.get_user(email)
+    #each character of the ticketname has to be alphanumeric or a space
+    if not all(chr.isalnum() or chr.isspace() for chr in name):
+        error_message = "name not alphanumeric"
+    #ticketname cannot have spaces at start or end
+    elif name.startswith(" ") or name.endswith(" "):
+        error_message = "space at start/end"
+    #verifies that the ticketname is between 6 and 60 characters
+    elif len(name) < 6 or len(name) > 60:
+        error_message = "username too short or too long"
+    #verifies that the quantity is more than 0 and less than/equal to 100.
+    elif quantity <= 0 or quantity > 100:
+        error_message = "quantity not between 1 and 100 (inclusive)"
+    #checks if the  user balance is more than the price of the ticket
+    elif  user.balance < (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity):
+        error_message = "The user does not have enough balance"
+    if error_message:
+        return render_template('/', message=error_message)
     return redirect('/')
+
 
 @app.route('/')
 @authenticate
