@@ -1,6 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
+import datetime
 
 import string
 import re #importing class re to be able to match fields to regex to place restraints
@@ -138,6 +139,14 @@ def update_post():
     quantity = request.form.get('quantity')
     price = request.form.get('price')
     expiration = request.form.get('expiration')
+    
+    #verifies date is in correct format
+    if not (datetime.datetime.strptime(expiration, '%Y-%m-%d')):
+        error_message = "Incorrect expiration date format"
+    #redirects for any errors
+    elif error_message:
+       return render_template('/', message=error_message)
+    
     return redirect('/')
 
 
