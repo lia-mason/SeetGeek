@@ -133,7 +133,7 @@ def update_get():
 
 
 @app.route('/update', methods=['POST'])
-def update_post(user):
+def update_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
     price = request.form.get('price')
