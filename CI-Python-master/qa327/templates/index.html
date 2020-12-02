@@ -12,16 +12,12 @@
 
 <h3><u>Buy a ticket</u></h3>
 
- <form method="post">
+ <form action="/buy" method="post">
    <label for="name">Name:</label><br>
-   <input type="text" id="name" name="name"><br>
+   <input type="text" id="buyname" name="name"><br>
    <label for="quantity">Quantity:</label><br>
-   <input type="text" id="quantity" name="quantity"><br>
-   <input type="submit" id="t-submit" value="Submit"><br>
-     <div>
-        <input>
-        <button>Submit</button>
-     </div>
+   <input type="text" id="buyquantity" name="quantity"><br>
+   <a href='/buy' class="btn btn-primary" id="t-submit" >Submit</a>
  </form><br>
 
 <div id="tickets">
