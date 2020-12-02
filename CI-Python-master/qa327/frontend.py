@@ -127,6 +127,20 @@ def sell_post():
     return redirect('/')
 
 
+@app.route('/update', methods=['GET'])
+def update_get():
+    return redirect('/')
+
+
+@app.route('/update', methods=['POST'])
+def update_post():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expiration = request.form.get('expiration')
+    return redirect('/')
+
+
 def authenticate(inner_function):
     """
     :param inner_function: any python function that accepts a user object

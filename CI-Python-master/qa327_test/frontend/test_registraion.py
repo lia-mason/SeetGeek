@@ -140,7 +140,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#tprice", "50.00")
         self.assert_element("#texpiration")
         self.type("#texpiration", "02/03/21")
-        self.click("#ticket-btn-submit")
+        self.click("#sell-btn-submit")
         self.assert_element("#welcome-header")
         
     @patch('qa327.backend.get_user', return_value=test_user)
