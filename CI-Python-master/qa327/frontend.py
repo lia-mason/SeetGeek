@@ -50,7 +50,6 @@ def register_post():
     #verifies that the email has valid format
     elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         error_message = "email not valid"
-
     else:
         user = bn.get_user(email)
         #verifies that the email does not already exist
@@ -116,7 +115,13 @@ def logout():
 
 @app.route('/sell', methods=['GET'])
 def sell_get():
-    return redirect('/')
+    #returning a user object of the current session to get the current users email.
+    email = session['logged_in']
+    #storing the returned user in a variable
+    user = bn.get_user(email)
+    tickets = bn.get_all_tickets()
+    return render_template('index.html', user=user, tickets=tickets)
+    #return redirect('/')
 
 
 @app.route('/sell', methods=['POST'])
@@ -134,7 +139,7 @@ def sell_post():
         error_message = "space at start/end"
     #verifies that the ticketname is between 6 and 60 characters
     elif len(name) < 6 or len(name) > 60:
-        error_message = "username too short or too long"
+        error_message = "ticketname too short or too long"
     #verifies that the quantity is more than 0 and less than/equal to 100.
     elif quantity <= 0 or quantity > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
@@ -142,17 +147,17 @@ def sell_post():
     elif price < 10 or price > 100:
         error_message = "price not in range"
     #verifies date is in correct format
-    elif not (datetime.datetime.strptime(date_text, '%Y-%m-%d')):
-        error_message = "Incorrect expiration date format"
+    #elif not (datetime.datetime.strptime(date_text, '%Y-%m-%d')):
+        #error_message = "Incorrect expiration date format"
     if error_message:
-        return render_template('/', message=error_message)
-
-        
-    return redirect('/')
+        return render_template('index.html', message=error_message)
+    else:
+        bn.add_ticket(name,quantity,price,expiration)
+        #return redirect('/')
+        tickets = bn.get_all_tickets()
+        return render_template('index.html', user=user, tickets=tickets)
 
     
-
-
 @app.route('/update', methods=['GET'])
 def update_get():
     return redirect('/')
@@ -198,8 +203,9 @@ def update_post():
         email = session['logged_in']
         user = bn.get_user(email)
         return render_template('index.html', message=error_message, user=user)
-      
-    return redirect('/')
+    else:
+        update_ticket(name,quantity,price,expiration)
+        return redirect('/')
 
 
 def authenticate(inner_function):
@@ -241,7 +247,6 @@ def buy_get():
 
 @app.route('/buy', methods=['POST'])
 def buy_post():
-
     name = request.form.get('buyname')
     quantity = request.form.get('buyquantity')
     price = request.form.get('tprice')
@@ -250,8 +255,14 @@ def buy_post():
     email = session['logged_in']
     #storing the returned user in a variable
     user = bn.get_user(email)
+    finalprice = (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity)
+
+    if get_ticket(name) == None:
+        error_message = "Sorry, this ticket is not available."
+    elif get_ticket(name).quantity < quantity :
+        error_message = "There are not enough tickets"
     #each character of the ticketname has to be alphanumeric or a space
-    if not all(chr.isalnum() or chr.isspace() for chr in name):
+    elif not all(chr.isalnum() or chr.isspace() for chr in name):
         error_message = "name not alphanumeric"
     #ticketname cannot have spaces at start or end
     elif name.startswith(" ") or name.endswith(" "):
@@ -263,12 +274,14 @@ def buy_post():
     elif quantity <= 0 or quantity > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
     #checks if the  user balance is more than the price of the ticket
-    elif  user.balance < (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity):
+    elif  user.balance < finalprice:
         error_message = "The user does not have enough balance"
     if error_message:
         return render_template('/', message=error_message)
-    return redirect('/')
-
+    else:
+        ticket_bought(name)
+        user.balance = user.balance - finalprice
+        return redirect('/')
 
 @app.route('/')
 @authenticate

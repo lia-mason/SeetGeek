@@ -7,10 +7,16 @@
 {% block content %}
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
-<h4>yo</h4>
 <h4 id='message'>Hi {{ message }}</h4>
 
-<h2 >Here are all available tickets</h2>
+<h2 >Here are all available tickets : {{ tickets}}</h2>
+  <div id="tickets">
+  {% for ticket in tickets %}
+      <div>
+          <h4>{{ ticket.name }} {{ ticket.price }}</h4>
+      </div>
+  {% endfor %}
+  </div>
 
 <h4><u>Buy a ticket</u></h4>
 
@@ -22,13 +28,7 @@
    <a href='/buy' class="btn btn-primary" id="t-submit" >Submit</a>
  </form><br>
 
-<div id="tickets">
-{% for ticket in tickets %}
-    <div>
-        <h4>{{ ticket.name }} {{ ticket.price }}</h4>
-    </div>
-{% endfor %}
-</div>
+
 
 <h4 id="ubalance">User balance: {{ user.balance }}</h4>
 
