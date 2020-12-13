@@ -14,6 +14,40 @@ http requests from the client (browser) through templating.
 The html templates are stored in the 'templates' folder. 
 """
 
+def authenticate(inner_function):
+    """
+    :param inner_function: any python function that accepts a user object
+
+    Wrap any python function and check the current session to see if 
+    the user has logged in. If login, it will call the inner_function
+    with the logged in user object.
+
+    To wrap a function, we can put a decoration on that function.
+    Example:
+
+    @authenticate
+    def home_page(user):
+        pass
+    """
+
+    def wrapped_inner():
+
+        # check did we store the key in the session
+        if 'logged_in' in session:
+            email = session['logged_in']
+            user = bn.get_user(email)
+            if user:
+                # if the user exists, call the inner_function
+                # with user as parameter
+                return inner_function(user)
+        else:
+            # else, redirect to the login page
+            return redirect('/login')
+
+    # return the wrapped version of the inner_function:
+    wrapped_inner.__name__ = inner_function.__name__
+    return wrapped_inner
+
 
 @app.route('/register', methods=['GET'])
 def register_get():
@@ -126,7 +160,8 @@ def sell_get():
 
 
 @app.route('/sell', methods=['POST'])
-def sell_post():
+@authenticate
+def sell_post(user):
     name = request.form.get('tname')
     quantity = request.form.get('tquantity')
     price = request.form.get('tprice')
@@ -142,16 +177,16 @@ def sell_post():
     elif len(name) < 6 or len(name) > 60:
         error_message = "ticketname too short or too long"
     #verifies that the quantity is more than 0 and less than/equal to 100.
-    elif quantity <= 0 or quantity > 100:
+    elif not quantity.isdigit() or int(quantity) <= 0 or int(quantity) > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
     #verifies that the price has to be of range [10,100]
-    elif price < 10 or price > 100:
+    elif not price.isdigit() or int(price) < 10 or int(price) > 100:
         error_message = "price not in range"
     #verifies date is in correct format
     #elif not (datetime.datetime.strptime(date_text, '%Y-%m-%d')):
         #error_message = "Incorrect expiration date format"
     if error_message:
-        return render_template('index.html', message=error_message)
+        return render_template('index.html', user=user, message=error_message)
     else:
         bn.add_ticket(name,quantity,price,expiration)
         #return redirect('/')
@@ -209,38 +244,7 @@ def update_post():
         return redirect('/')
 
 
-def authenticate(inner_function):
-    """
-    :param inner_function: any python function that accepts a user object
 
-    Wrap any python function and check the current session to see if 
-    the user has logged in. If login, it will call the inner_function
-    with the logged in user object.
-
-    To wrap a function, we can put a decoration on that function.
-    Example:
-
-    @authenticate
-    def home_page(user):
-        pass
-    """
-
-    def wrapped_inner():
-
-        # check did we store the key in the session
-        if 'logged_in' in session:
-            email = session['logged_in']
-            user = bn.get_user(email)
-            if user:
-                # if the user exists, call the inner_function
-                # with user as parameter
-                return inner_function(user)
-        else:
-            # else, redirect to the login page
-            return redirect('/login')
-
-    # return the wrapped version of the inner_function:
-    return wrapped_inner
 
 @app.route('/buy', methods=['GET'])
 def buy_get():
@@ -293,4 +297,5 @@ def profile(user):
     # the login checking code all the time for other
     # front-end portals
     tickets = bn.get_all_tickets()
+    print(tickets)
     return render_template('index.html', user=user, tickets=tickets)

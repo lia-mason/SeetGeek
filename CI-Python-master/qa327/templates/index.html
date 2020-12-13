@@ -22,10 +22,10 @@
 
  <form action="/buy" method="post">
    <label for="name">Name:</label><br>
-   <input type="text" id="buyname" name="name"><br>
+   <input type="text" id="buyname" name="tname"><br>
    <label for="quantity">Quantity:</label><br>
-   <input type="text" id="buyquantity" name="quantity"><br>
-   <a href='/buy' class="btn btn-primary" id="t-submit" >Submit</a>
+   <input type="text" id="buyquantity" name="tquantity"><br>
+   <input type="submit" class="btn btn-primary" id="t-submit" >Submit</a>
  </form><br>
 
 
@@ -36,28 +36,28 @@
 
 <form action="/sell" method="post">
   <label for="tname">Name:</label><br>
-  <input type="text" id="tname" name="name"><br>
+  <input type="text" id="tname" name="tname"><br>
   <label for="tquantity">Quantity:</label><br>
-  <input type="text" id="tquantity" name="quantity"><br>
+  <input type="text" id="tquantity" name="tquantity"><br>
     <label for="tprice">Price:</label><br>
-      <input type="text" id="tprice" name="price"><br>
+      <input type="text" id="tprice" name="tprice"><br>
     <label for="texpiration">Expiration Date:</label><br>
   <input type="text" id="texpiration" name="expiration"><br><br>
-  <a href='/sell' class="btn btn-primary" id="sell-btn-submit" >Submit</a>
+  <input type="submit"  class="btn btn-primary" id="sell-btn-submit" >Submit</a>
 </form><br>
 
 <h4><u>Update an existing ticket</u></h4>
 
 <form action="/update" method="post">
   <label for="uname">Name:</label><br>
-  <input type="text" id="uname" name="name"><br>
+  <input type="text" id="uname" name="tname"><br>
   <label for="uquantity">Quantity:</label><br>
-  <input type="text" id="uquantity" name="quantity"><br>
+  <input type="text" id="uquantity" name="tquantity"><br>
     <label for="uprice">Price:</label><br>
       <input type="text" id="uprice" name="price"><br>
     <label for="uexpiration">Expiration Date:</label><br>
   <input type="text" id="uexpiration" name="expiration"><br><br>
-  <a href='/update' class="btn btn-primary" id="update-btn-submit" >Submit</a>
+  <input type="submit" class="btn btn-primary" id="update-btn-submit" >Submit</a>
 </form><br>
 
 <a href='/logout' id="logout" >logout</a>
