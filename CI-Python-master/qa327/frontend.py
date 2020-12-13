@@ -60,7 +60,7 @@ def register_post():
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('login.html', message=error_message)
+        return redirect('login?msg='+error_message)
     else:
         #bn.register_user(email,name,password,password2,5000)
         return redirect('/login')
@@ -68,7 +68,8 @@ def register_post():
 
 @app.route('/login', methods=['GET'])
 def login_get():
-    return render_template('login.html', message='Please login')
+    msg = request.args.get('msg', default='Please login')
+    return render_template('login.html', message=msg)
 
 
 @app.route('/login', methods=['POST'])
