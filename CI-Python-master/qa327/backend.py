@@ -73,8 +73,15 @@ def update_ticket(name,quantity,price,expiration):
     db.session.commit()
     return None
 
+def update_quantity(name,quantity):
+    ticket = get_ticket(name)
+    ticket.quantity = ticket.quantity - int(quantity)
+    db.session.commit()
+    return None
+    
+
 def ticket_bought(name):
-    ticket = get_ticket
+    ticket = get_ticket(name)
     if ticket.quantity == 1:
         remove_ticket(name)
     else:

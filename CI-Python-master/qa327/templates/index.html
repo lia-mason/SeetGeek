@@ -7,18 +7,20 @@
 {% block content %}
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>
 
-<h4 id='message'>Hi {{ message }}</h4>
+<em id='message' style="color:rgb(255,0,0);"> <font size="+2" > {{ message }}</font></em>
 
-<h2 >Here are all available tickets : {{ tickets}}</h2>
+<h2 >Here are all available tickets: </h2>
+<a href="#buy-header" class="btn btn-primary"> Buy a Ticket</a>&emsp;&emsp;<a href="#sell-header" class="btn btn-primary">Sell a Ticket </a>
   <div id="tickets">
   {% for ticket in tickets %}
       <div>
-          <h4>{{ ticket.name }} {{ ticket.price }}</h4>
+          <h4>Title: {{ ticket.name }}, Price: {{ ticket.price }}, Quantity:  {{ ticket.quantity}}, Expiration Date: {{ ticket.expirationdate}} </h4>
       </div>
   {% endfor %}
   </div>
 
-<h4><u>Buy a ticket</u></h4>
+
+<h4 id="buy-header"><u>Buy a ticket</u></h4>
 
  <form action="/buy" method="post">
    <label for="name">Name:</label><br>
@@ -32,7 +34,8 @@
 
 <h4 id="ubalance">User balance: {{ user.balance }}</h4>
 
-<h4><u>Sell a ticket</u></h4>
+
+<h4 id="sell-header"><u>Sell a ticket</u></h4>
 
 <form action="/sell" method="post">
   <label for="tname">Name:</label><br>
@@ -51,11 +54,11 @@
 <form action="/update" method="post">
   <label for="uname">Name:</label><br>
   <input type="text" id="uname" name="tname"><br>
-  <label for="uquantity">Quantity:</label><br>
+  <label for="uquantity">New Quantity:</label><br>
   <input type="text" id="uquantity" name="tquantity"><br>
-    <label for="uprice">Price:</label><br>
+    <label for="uprice">New Price:</label><br>
       <input type="text" id="uprice" name="price"><br>
-    <label for="uexpiration">Expiration Date:</label><br>
+    <label for="uexpiration">New Expiration Date:</label><br>
   <input type="text" id="uexpiration" name="expiration"><br><br>
   <input type="submit" class="btn btn-primary" id="update-btn-submit" >Submit</a>
 </form><br>
