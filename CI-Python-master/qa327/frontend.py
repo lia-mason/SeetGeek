@@ -1,7 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
 import qa327.backend as bn
-import datetime
+#import datetime
 
 import string
 import re #importing class re to be able to match fields to regex to place restraints
@@ -13,6 +13,40 @@ It elaborates how the services should handle different
 http requests from the client (browser) through templating.
 The html templates are stored in the 'templates' folder. 
 """
+
+def authenticate(inner_function):
+    """
+    :param inner_function: any python function that accepts a user object
+
+    Wrap any python function and check the current session to see if 
+    the user has logged in. If login, it will call the inner_function
+    with the logged in user object.
+
+    To wrap a function, we can put a decoration on that function.
+    Example:
+
+    @authenticate
+    def home_page(user):
+        pass
+    """
+
+    def wrapped_inner():
+
+        # check did we store the key in the session
+        if 'logged_in' in session:
+            email = session['logged_in']
+            user = bn.get_user(email)
+            if user:
+                # if the user exists, call the inner_function
+                # with user as parameter
+                return inner_function(user)
+        else:
+            # else, redirect to the login page
+            return redirect('/login')
+
+    # return the wrapped version of the inner_function:
+    wrapped_inner.__name__ = inner_function.__name__
+    return wrapped_inner
 
 
 @app.route('/register', methods=['GET'])
@@ -50,7 +84,6 @@ def register_post():
     #verifies that the email has valid format
     elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         error_message = "email not valid"
-
     else:
         user = bn.get_user(email)
         #verifies that the email does not already exist
@@ -61,7 +94,7 @@ def register_post():
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
     if error_message:
-        return render_template('login.html', message=error_message)
+        return redirect('login?msg='+error_message)
     else:
         #bn.register_user(email,name,password,password2,5000)
         return redirect('/login')
@@ -69,7 +102,8 @@ def register_post():
 
 @app.route('/login', methods=['GET'])
 def login_get():
-    return render_template('login.html', message='Please login')
+    msg = request.args.get('msg', default='Please login')
+    return render_template('login.html', message=msg)
 
 
 @app.route('/login', methods=['POST'])
@@ -116,43 +150,59 @@ def logout():
 
 @app.route('/sell', methods=['GET'])
 def sell_get():
-    return redirect('/')
+    #returning a user object of the current session to get the current users email.
+    email = session['logged_in']
+    #storing the returned user in a variable
+    user = bn.get_user(email)
+    tickets = bn.get_all_tickets()
+    return render_template('index.html', user=user, tickets=tickets)
+    #return redirect('/')
 
 
 @app.route('/sell', methods=['POST'])
-def sell_post():
+@authenticate
+def sell_post(user):
     name = request.form.get('tname')
     quantity = request.form.get('tquantity')
     price = request.form.get('tprice')
-    expiration = request.form.get('texpiration')
+    expiration = request.form.get('expiration')
     error_message = None
+    #checks if the expirationdate is in the correct format, assigns checkDate
+    #to None if it is not
+    try:
+        checkDate = datetime.datetime.strptime(expiration, '%Y%m%d')
+    except: 
+        checkDate = None
     #each character of the ticketname has to be alphanumeric or a space
     if not all(chr.isalnum() or chr.isspace() for chr in name):
         error_message = "name not alphanumeric"
+    #verifies that checkDate is not equal to None
+    elif checkDate == None:
+        error_message = "Incorrect expiration date format"
     #ticketname cannot have spaces at start or end
     elif name.startswith(" ") or name.endswith(" "):
         error_message = "space at start/end"
     #verifies that the ticketname is between 6 and 60 characters
     elif len(name) < 6 or len(name) > 60:
-        error_message = "username too short or too long"
+        error_message = "ticketname too short or too long"
+        
     #verifies that the quantity is more than 0 and less than/equal to 100.
-    elif quantity <= 0 or quantity > 100:
+    elif not quantity.isdigit() or int(quantity) <= 0 or int(quantity) > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
     #verifies that the price has to be of range [10,100]
-    elif price < 10 or price > 100:
+    elif not price.isdigit() or int(price) < 10 or int(price) > 100:
         error_message = "price not in range"
-    #verifies date is in correct format
-    elif not (datetime.datetime.strptime(date_text, '%Y-%m-%d')):
-        error_message = "Incorrect expiration date format"
+    
     if error_message:
-        return render_template('/', message=error_message)
-
-        
-    return redirect('/')
+        tickets = bn.get_all_tickets()
+        return render_template('index.html', user=user, message=error_message, tickets=tickets)
+    else:
+        bn.add_ticket(name,quantity,price,expiration)
+        #return redirect('/')
+        tickets = bn.get_all_tickets()
+        return render_template('index.html', user=user, tickets=tickets)
 
     
-
-
 @app.route('/update', methods=['GET'])
 def update_get():
     return redirect('/')
@@ -160,80 +210,59 @@ def update_get():
 
 @app.route('/update', methods=['POST'])
 def update_post():
-    name = request.form.get('name')
-    quantity = request.form.get('quantity')
+    name = request.form.get('tname')
+    quantity = request.form.get('tquantity')
     price = request.form.get('price')
     expiration = request.form.get('expiration')
+    email = session['logged_in']
+    user = bn.get_user(email)
+    ticket = bn.get_ticket(name)
+    error_message = None
+    #checks if the expiration date is in the correct format, assigns checkDate 
+    #to None if it is not
+    try:
+        checkDate = datetime.datetime.strptime(expiration, '%Y%m%d')
+    except: 
+        checkDate = None
 
-    
-    #verifies date is in correct format
-    if not (datetime.datetime.strptime(expiration, '%Y-%m-%d')):
+    if ticket == None:
+        error_message = "Sorry, this ticket is not available."
+
+    #verifies that checkDate is not equal to None
+    elif checkDate == None:
         error_message = "Incorrect expiration date format"
     #redirects for any errors
-    elif error_message:
-       return render_template('/', message=error_message)
-    
-
-    error_message = None
+   # elif error_message:
+       #return render_template('/', message=error_message)
+    #error_message = None
 
     #Validating information submitted in update form
 
-    #Name of ticket has to be alphanumeric only
-    for char in name:
-        if not char.isalnum() or not char.isspace():
-            error_message = "The ticket name must be alphanumeric only."
+    #Name of ticket has to be alphanumeric only 
+    elif not all(chr.isalnum() or chr.isspace() for chr in name):
+        error_message = "name not alphanumeric"
+  
     #Name must have no spaces at the beginning or end
-    if name.startswith(" ") or name.endswith(" "):
+    elif name.startswith(" ") or name.endswith(" "):
         error_message = "The ticket name can't begin or end with a space."
     #Name of the ticket can't be longer than 60 characters
     elif len(name) > 60:
         error_message = "The ticket name can't be longer than 60 characters."
     #Quantity has to be more than zero, and less than or equal to 100
-    elif quantity <= 0 or quantity > 100:
+    elif int(quantity) <= 0 or int(quantity) > 100:
         error_message = "The ticket quantity must be between 1 and 100 (inclusive)."
     #Price has to be in the range 10-100
-    elif price < 10 or price > 100:
+    elif int(price) < 10 or int(price) > 100:
         error_message = "The ticket price must be between 10 and 100 (inclusive)."
     if error_message:
-        email = session['logged_in']
-        user = bn.get_user(email)
-        return render_template('index.html', message=error_message, user=user)
-      
-    return redirect('/')
+        tickets = bn.get_all_tickets()
+        return render_template('index.html', message=error_message, user=user, tickets=tickets)
+    else:
+        bn.update_ticket(name,quantity,price,int(expiration))
+        return redirect('/')
 
 
-def authenticate(inner_function):
-    """
-    :param inner_function: any python function that accepts a user object
 
-    Wrap any python function and check the current session to see if 
-    the user has logged in. If login, it will call the inner_function
-    with the logged in user object.
-
-    To wrap a function, we can put a decoration on that function.
-    Example:
-
-    @authenticate
-    def home_page(user):
-        pass
-    """
-
-    def wrapped_inner():
-
-        # check did we store the key in the session
-        if 'logged_in' in session:
-            email = session['logged_in']
-            user = bn.get_user(email)
-            if user:
-                # if the user exists, call the inner_function
-                # with user as parameter
-                return inner_function(user)
-        else:
-            # else, redirect to the login page
-            return redirect('/login')
-
-    # return the wrapped version of the inner_function:
-    return wrapped_inner
 
 @app.route('/buy', methods=['GET'])
 def buy_get():
@@ -241,17 +270,23 @@ def buy_get():
 
 @app.route('/buy', methods=['POST'])
 def buy_post():
-
-    name = request.form.get('buyname')
-    quantity = request.form.get('buyquantity')
+    name = request.form.get('tname')
+    quantity = request.form.get('tquantity')
     price = request.form.get('tprice')
     error_message = None
     #returning a user object of the current session to get the current users email.
     email = session['logged_in']
     #storing the returned user in a variable
     user = bn.get_user(email)
+    #finalprice = (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity)
+    ticket = bn.get_ticket(name)
+
+    if ticket == None:
+        error_message = "Sorry, this ticket is not available."
+    elif ticket.quantity < int(quantity) :
+        error_message = "There are not enough tickets"
     #each character of the ticketname has to be alphanumeric or a space
-    if not all(chr.isalnum() or chr.isspace() for chr in name):
+    elif not all(chr.isalnum() or chr.isspace() for chr in name):
         error_message = "name not alphanumeric"
     #ticketname cannot have spaces at start or end
     elif name.startswith(" ") or name.endswith(" "):
@@ -260,15 +295,23 @@ def buy_post():
     elif len(name) < 6 or len(name) > 60:
         error_message = "username too short or too long"
     #verifies that the quantity is more than 0 and less than/equal to 100.
-    elif quantity <= 0 or quantity > 100:
+    elif int(quantity) <= 0 or int(quantity) > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
     #checks if the  user balance is more than the price of the ticket
-    elif  user.balance < (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity):
+    elif  user.balance < ((ticket.price*int(quantity)) + 0.35*(ticket.price*int(quantity)) + 0.05*(ticket.price*int(quantity))):
         error_message = "The user does not have enough balance"
     if error_message:
-        return render_template('/', message=error_message)
-    return redirect('/')
-
+        #return render_template('/', message=error_message)
+        tickets = bn.get_all_tickets()
+        return render_template('index.html', message=error_message, user=user, tickets=tickets)
+    else:
+        #bn.ticket_bought(name)
+        user.balance = user.balance - ((ticket.price*int(quantity)) + 0.35*(ticket.price*int(quantity)) + 0.05*(ticket.price*int(quantity)))
+        if ticket.quantity == 1:
+            bn.remove_ticket(name)
+        else:
+            bn.update_quantity(name,quantity)
+        return redirect('/')
 
 @app.route('/')
 @authenticate
@@ -279,4 +322,5 @@ def profile(user):
     # the login checking code all the time for other
     # front-end portals
     tickets = bn.get_all_tickets()
+    print(tickets)
     return render_template('index.html', user=user, tickets=tickets)
