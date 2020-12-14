@@ -5,37 +5,37 @@
 {% endblock %}
 
 {% block content %}
-<h2 id="welcome-header">Hi {{ user.name }} !</h2>
+<h2 id="welcome-header">Hi {{ user.name }}!</h2>
 
 <em id='message' style="color:rgb(255,0,0);"> <font size="+2" > {{ message }}</font></em>
 
-<h2 >Here are all available tickets: </h2>
-<a href="#buy-header" class="btn btn-primary"> Buy a Ticket</a>&emsp;&emsp;<a href="#sell-header" class="btn btn-primary">Sell a Ticket </a>
+<h2 >Here Are All Available Tickets: </h2>
+<a href="#buy-header" class="btn btn-primary"> Buy a Ticket</a>&emsp;&emsp;<a href="#sell-header" class="btn btn-primary">Sell a Ticket </a><br><br>
   <div id="tickets">
   {% for ticket in tickets %}
       <div>
           <h4>Title: {{ ticket.name }}, Price: {{ ticket.price }}, Quantity:  {{ ticket.quantity}}, Expiration Date: {{ ticket.expirationdate}} </h4>
       </div>
   {% endfor %}
-  </div>
+  </div><br>
 
 
-<h4 id="buy-header"><u>Buy a ticket</u></h4>
+<h2 id="buy-header"><u>Buy a ticket</u></h2><br>
 
  <form action="/buy" method="post">
    <label for="name">Name:</label><br>
    <input type="text" id="buyname" name="tname"><br>
    <label for="quantity">Quantity:</label><br>
-   <input type="text" id="buyquantity" name="tquantity"><br>
-   <input type="submit" class="btn btn-primary" id="t-submit" >Submit</a>
+   <input type="text" id="buyquantity" name="tquantity"><br><br>
+   <input type="submit" class="btn btn-primary" id="t-submit" ></a>
  </form><br>
 
 
 
-<h4 id="ubalance">User balance: {{ user.balance }}</h4>
+<h4 id="ubalance">User balance: {{ user.balance }}</h4><br>
 
 
-<h4 id="sell-header"><u>Sell a ticket</u></h4>
+<h2 id="sell-header"><u>Sell a ticket</u></h2>
 
 <form action="/sell" method="post">
   <label for="tname">Name:</label><br>
@@ -46,10 +46,10 @@
       <input type="text" id="tprice" name="tprice"><br>
     <label for="texpiration">Expiration Date:</label><br>
   <input type="text" id="texpiration" name="expiration"><br><br>
-  <input type="submit"  class="btn btn-primary" id="sell-btn-submit" >Submit</a>
+  <input type="submit"  class="btn btn-primary" id="sell-btn-submit" ></a>
 </form><br>
 
-<h4><u>Update an existing ticket</u></h4>
+<h2><u>Update an existing ticket</u></h2>
 
 <form action="/update" method="post">
   <label for="uname">Name:</label><br>
@@ -60,8 +60,8 @@
       <input type="text" id="uprice" name="price"><br>
     <label for="uexpiration">New Expiration Date:</label><br>
   <input type="text" id="uexpiration" name="expiration"><br><br>
-  <input type="submit" class="btn btn-primary" id="update-btn-submit" >Submit</a>
+  <input type="submit" class="btn btn-primary" id="update-btn-submit" ></a>
 </form><br>
 
-<a href='/logout' id="logout" >logout</a>
+<a href='/logout' id="logout" >logout</a><br><br>
 {% endblock %}
