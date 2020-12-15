@@ -281,12 +281,8 @@ def buy_post():
     #finalprice = (price*quantity) + 0.35*(price*quantity) + 0.05*(price*quantity)
     ticket = bn.get_ticket(name)
 
-    if ticket == None:
-        error_message = "Sorry, this ticket is not available."
-    elif ticket.quantity < int(quantity) :
-        error_message = "There are not enough tickets"
     #each character of the ticketname has to be alphanumeric or a space
-    elif not all(chr.isalnum() or chr.isspace() for chr in name):
+    if not all(chr.isalnum() or chr.isspace() for chr in name):
         error_message = "name not alphanumeric"
     #ticketname cannot have spaces at start or end
     elif name.startswith(" ") or name.endswith(" "):
@@ -297,6 +293,11 @@ def buy_post():
     #verifies that the quantity is more than 0 and less than/equal to 100.
     elif int(quantity) <= 0 or int(quantity) > 100:
         error_message = "quantity not between 1 and 100 (inclusive)"
+    #verifies that the ticket exists
+    elif ticket == None:
+        error_message = "Sorry, this ticket is not available."
+    elif ticket.quantity < int(quantity) :
+        error_message = "There are not enough tickets"
     #checks if the  user balance is more than the price of the ticket
     elif  user.balance < ((ticket.price*int(quantity)) + 0.35*(ticket.price*int(quantity)) + 0.05*(ticket.price*int(quantity))):
         error_message = "The user does not have enough balance"

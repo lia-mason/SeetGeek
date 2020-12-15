@@ -56,6 +56,8 @@ def add_ticket(name,quantity,price,expiration):
 
 def get_ticket(name):
     ticket = Ticket.query.filter_by(name=name).first()
+    if not ticket:
+        return None
     return ticket
 
 def remove_ticket(name):
