@@ -88,6 +88,8 @@ class Registered(BaseCase):
         #self.register()
         self.login()
         self.create_tickets()
+        self.open(base_url)
+        self.assert_text("Title: Mombasa, Price: 15, Quantity: 20, Expiration Date: 20210301")
         self.buy_tickets()
         self.open(base_url)
         #should open base url
