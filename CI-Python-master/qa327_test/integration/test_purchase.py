@@ -1,6 +1,6 @@
 import pytest
 from seleniumbase import BaseCase
-
+import qa327.backend as bn
 from qa327_test.conftest import base_url
 from unittest.mock import patch
 from qa327.models import db, User
@@ -39,7 +39,7 @@ class Registered(BaseCase):
     def create_tickets(self):
         """Adds a new ticket through sell form. """
         self.open(base_url)
-        self.type("#tname", "Batman")
+        self.type("#tname", "Mombasa")
         self.type("#tquantity", "20")
         self.type("#tprice", "15")
         self.type("#texpiration", "20210301")
@@ -57,18 +57,18 @@ class Registered(BaseCase):
     def buy_tickets(self):
         """Purchases a ticket through buy form. """
         self.open(base_url)
-        self.type("#buyname", "Batman")
+        self.type("#buyname", "Mombasa")
         self.type("#buyquantity", "1")
         self.click("#t-submit")
 
     def update_ticket(self):
         self.open(base_url)
-        self.type("#uname", "Batman")
+        self.type("#uname", "Mombasa")
         self.type("#uquantity", "20")
         self.type("#uprice", "15" )
         self.type("#uexpiration", "20210301")
         self.click("#update-btn-submit")
-
+    '''
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_register_login_create_ticket(self, *_):
         """ This test checks the implemented login/logout feature """
@@ -80,19 +80,19 @@ class Registered(BaseCase):
         self.assert_element("#welcome-header")
         #self.assert_text("Welcome test_frontend", "#welcome-header")
         self.assert_element("#tickets div h4")
-        self.assert_text("Title: Avengers Infinity War, Price: 15, Quantity: 20, Expiration Date: 20210301")
-    
+        self.assert_text("Title: Mombasa, Price: 15, Quantity: 20, Expiration Date: 20210301")
+    '''
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_register_login_buy_ticket(self, *_):
         """ This test checks the implemented login/logout feature """
         #self.register()
         self.login()
-        self.update_ticket()
+        self.create_tickets()
         self.buy_tickets()
         self.open(base_url)
         #should open base url
         self.assert_element("#welcome-header")
         #self.assert_text("Welcome test_frontend", "#welcome-header")
         self.assert_element("#tickets div h4")
-        self.assert_text("Title: Batman, Price: 15, Quantity: 19, Expiration Date: 20210301")
-    
+        self.assert_text("Title: Mombasa, Price: 15, Quantity: 19, Expiration Date: 20210301")
+        bn.remove_ticket("Mombasa")
