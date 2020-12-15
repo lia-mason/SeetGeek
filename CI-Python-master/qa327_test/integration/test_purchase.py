@@ -14,7 +14,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 test_user = User(
     email='liamason@gmail.com',
     name='test_frontend',
-    password=generate_password_hash('KingstonOntario2$')
+    password=generate_password_hash('KingstonOntario2$'),
+    balance=5000
 )
 
 @pytest.mark.usefixtures('server')
