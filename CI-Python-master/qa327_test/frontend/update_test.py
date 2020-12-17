@@ -32,49 +32,51 @@ test_tickets = [
     {'name': 't1', 'price': '100'}
 ]
 
-#R5.1: This function checks whether index page shows message when ticket name is not alphanumeric
-@patch('qa327.backend.get_user', return_value=test_user)
-def test_ticket_alphanumeric(self, *_):
-    self.open(base_url + '/logout')
-    #open login page
-    self.open(base_url + '/login')
-    #fill email and password
-    self.type("#email", "jivanji_adnan@test.com")
-    self.type("#password", "AdnanJivanji11$")
-    #click enter button
-    self.click('input[type="submit"]')
-    # open home page
-    self.open(base_url)
+class UpdateTest(BaseCase):
 
-    #fill in ticket name that is not alphanumeric
-    self.type("#uname", "j8&*ushkmf")
-    self.type("#uquantity", "20")
-    self.click("#update-btn-submit")
+    #R5.1: This function checks whether index page shows message when ticket name is not alphanumeric
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_ticket_alphanumeric(self, *_):
+        self.open(base_url + '/logout')
+        #open login page
+        self.open(base_url + '/login')
+        #fill email and password
+        self.type("#email", "jivanji_adnan@test.com")
+        self.type("#password", "AdnanJivanji11$")
+        #click enter button
+        self.click('input[type="submit"]')
+        # open home page
+        self.open(base_url)
 
-    self.assert_element("#message")
-    self.assert_text("name not alphanumeric", "#message")
+        #fill in ticket name that is not alphanumeric
+        self.type("#uname", "j8&*ushkmf")
+        self.type("#uquantity", "20")
+        self.click("#update-btn-submit")
 
-#R5.1.2: This function checks whether index page shows errormessage when ticket name has spaces at beginning/end
-@patch('qa327.backend.get_user', return_value=test_user)
-def test_ticket_spaces(self, *_):
-    self.open(base_url + '/logout')
-    #open login page
-    self.open(base_url + '/login')
-    #fill email and password
-    self.type("#email", "jivanji_adnan@test.com")
-    self.type("#password", "AdnanJivanji11$")
-    #click enter button
-    self.click('input[type="submit"]')
+        self.assert_element("#message")
+        self.assert_text("name not alphanumeric", "#message")
 
-    # open home page
-    self.open(base_url)
-    #fill in ticket name that has space at start
-    self.type("#uname", " pinkpanther")
-    self.type("#uquantity", "20")
-    self.click("#update-btn-submit")
+    #R5.1.2: This function checks whether index page shows errormessage when ticket name has spaces at beginning/end
+    @patch('qa327.backend.get_user', return_value=test_user)
+    def test_ticket_spaces(self, *_):
+        self.open(base_url + '/logout')
+        #open login page
+        self.open(base_url + '/login')
+        #fill email and password
+        self.type("#email", "jivanji_adnan@test.com")
+        self.type("#password", "AdnanJivanji11$")
+        #click enter button
+        self.click('input[type="submit"]')
 
-    self.assert_element("#message")
-    self.assert_text("space at start/end", "#message")
+        # open home page
+        self.open(base_url)
+        #fill in ticket name that has space at start
+        self.type("#uname", " pinkpanther")
+        self.type("#uquantity", "20")
+        self.click("#update-btn-submit")
+
+        self.assert_element("#message")
+        self.assert_text("space at start/end", "#message")
 
 #R5.2: This function checks whether index page shows errormessage when ticketname is shorter than 60ch
     @patch('qa327.backend.get_user', return_value=test_user)
