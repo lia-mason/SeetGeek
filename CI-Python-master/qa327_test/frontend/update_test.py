@@ -51,12 +51,14 @@ class UpdateTest(BaseCase):
         #fill in ticket name that is not alphanumeric
         self.type("#uname", "j8&*ushkmf")
         self.type("#uquantity", "20")
+        self.type("#uprice", "10")
+        self.type("#uexpiration", "20201201")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
         self.assert_text("name not alphanumeric", "#message")
 
-    #R5.1.2: This function checks whether index page shows errormessage when ticket name has spaces at beginning/end
+    #R5.1.2: This function checks whether index page shows error message when ticket name has spaces at beginning/end
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_ticket_spaces(self, *_):
         self.open(base_url + '/logout')
@@ -73,10 +75,12 @@ class UpdateTest(BaseCase):
         #fill in ticket name that has space at start
         self.type("#uname", " pinkpanther")
         self.type("#uquantity", "20")
+        self.type("#uprice", "10")
+        self.type("#uexpiration", "20201201")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
-        self.assert_text("space at start/end", "#message")
+        self.assert_text("The ticket name can't begin or end with a space.", "#message")
 
 #R5.2: This function checks whether index page shows errormessage when ticketname is shorter than 60ch
     @patch('qa327.backend.get_user', return_value=test_user)
@@ -92,12 +96,14 @@ class UpdateTest(BaseCase):
 
         # open home page
         self.open(base_url)
-        self.type("#uname", "lol")
+        self.type("#uname", "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuio")
         self.type("#uquantity", "20")
+        self.type("#uprice", "10")
+        self.type("#uexpiration", "20201201")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
-        self.assert_text("username too short or too long", "#message")
+        self.assert_text("The ticket name can't be longer than 60 characters.", "#message")
 
 #R5.3: ???This function checks whether index page shows errormessage when quantity is greater than 100
     @patch('qa327.backend.get_user', return_value=test_user)
@@ -116,10 +122,12 @@ class UpdateTest(BaseCase):
         self.type("#buyname", "pinkpanther")
         #fill quantity as 500
         self.type("#uquantity", "500")
+        self.type("#uprice", "10")
+        self.type("#uexpiration", "20201201")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
-        self.assert_text("quantity not between 1 and 100 (inclusive)", "#message")
+        self.assert_text("The ticket quantity must be between 1 and 100 (inclusive).", "#message")
 
 #R5.4.1: This function checks whether index page shows errormessage when price is lt 10
     @patch('qa327.backend.get_user', return_value=test_user)
@@ -143,7 +151,7 @@ class UpdateTest(BaseCase):
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
-        self.assert_text("price not in range", "#message")
+        self.assert_text("The ticket price must be between 10 and 100 (inclusive).", "#message")
 
 #R5.4.2: This function checks whether index page shows errormessage when price is gt 100
     @patch('qa327.backend.get_user', return_value=test_user)
@@ -160,14 +168,14 @@ class UpdateTest(BaseCase):
         # open home page
         self.open(base_url)
         self.type("#uname", "pinkpanther")
-        self.type("#tquantity", "20")
+        self.type("#uquantity", "20")
         #fill price as greater than 100
         self.type("#uprice", "101")
         self.type("#uexpiration", "20200901")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
-        self.assert_text("price not in range", "#message")
+        self.assert_text("The ticket price must be between 10 and 100 (inclusive).", "#message")
 
 #R5.5: This function checks whether index page shows errormessage when date is in wrong format
     @patch('qa327.backend.get_user', return_value=test_user)
@@ -209,6 +217,8 @@ class UpdateTest(BaseCase):
         self.open(base_url)
         self.type("#uname", "Come On")
         self.type("#uquantity", "2")
+        self.type("#uprice", "50")
+        self.type("#uexpiration", "20200901")
         self.click("#update-btn-submit")
         self.assert_element("#message")
         self.assert_text("Sorry, this ticket is not available.", "#message")
