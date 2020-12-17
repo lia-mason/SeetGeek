@@ -47,8 +47,8 @@ def test_ticket_alphanumeric(self, *_):
     self.open(base_url)
 
     #fill in ticket name that is not alphanumeric
-    self.type("#tname", "j8&*ushkmf")
-    self.type("#tquantity", "20")
+    self.type("#uname", "j8&*ushkmf")
+    self.type("#uquantity", "20")
     self.click("#update-btn-submit")
 
     self.assert_element("#message")
@@ -69,8 +69,8 @@ def test_ticket_spaces(self, *_):
     # open home page
     self.open(base_url)
     #fill in ticket name that has space at start
-    self.type("#tname", " pinkpanther")
-    self.type("#tquantity", "20")
+    self.type("#uname", " pinkpanther")
+    self.type("#uquantity", "20")
     self.click("#update-btn-submit")
 
     self.assert_element("#message")
@@ -90,8 +90,8 @@ def test_ticket_spaces(self, *_):
 
         # open home page
         self.open(base_url)
-        self.type("#tname", "lol")
-        self.type("#tquantity", "20")
+        self.type("#uname", "lol")
+        self.type("#uquantity", "20")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
@@ -113,7 +113,7 @@ def test_ticket_spaces(self, *_):
         self.open(base_url)
         self.type("#buyname", "pinkpanther")
         #fill quantity as 500
-        self.type("#tquantity", "500")
+        self.type("#uquantity", "500")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
@@ -133,11 +133,11 @@ def test_ticket_spaces(self, *_):
 
         # open home page
         self.open(base_url)
-        self.type("#tname", "pinkpanther")
-        self.type("#tquantity", "20")
+        self.type("#uname", "pinkpanther")
+        self.type("#uquantity", "20")
         #fill price as less than 10
-        self.type("#tprice", "9")
-        self.type("#texpiration", "20200901")
+        self.type("#uprice", "9")
+        self.type("#uexpiration", "20200901")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
@@ -157,11 +157,11 @@ def test_ticket_spaces(self, *_):
 
         # open home page
         self.open(base_url)
-        self.type("#tname", "pinkpanther")
+        self.type("#uname", "pinkpanther")
         self.type("#tquantity", "20")
         #fill price as greater than 100
-        self.type("#tprice", "101")
-        self.type("#texpiration", "20200901")
+        self.type("#uprice", "101")
+        self.type("#uexpiration", "20200901")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
@@ -181,11 +181,11 @@ def test_ticket_spaces(self, *_):
 
         # open home page
         self.open(base_url)
-        self.type("#tname", "pinkpanther")
-        self.type("#tquantity", "20")
-        self.type("#tprice", "50")
+        self.type("#uname", "pinkpanther")
+        self.type("#uquantity", "20")
+        self.type("#uprice", "50")
         #fill date with wrong date format
-        self.type("#texpiration", "2020")
+        self.type("#uexpiration", "2020")
         self.click("#update-btn-submit")
 
         self.assert_element("#message")
@@ -205,8 +205,8 @@ def test_ticket_spaces(self, *_):
         self.click('input[type="submit"]')
         # open home page
         self.open(base_url)
-        self.type("#tname", "Come On")
-        self.type("#tquantity", "2")
+        self.type("#uname", "Come On")
+        self.type("#uquantity", "2")
         self.click("#update-btn-submit")
         self.assert_element("#message")
         self.assert_text("Sorry, this ticket is not available.", "#message")
