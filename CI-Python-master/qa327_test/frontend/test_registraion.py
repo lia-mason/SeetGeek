@@ -562,9 +562,10 @@ class RegistrationTest(BaseCase):
         #click enter button
         self.click('input[type="submit"]')
 
-        #user profile page is opened
+        # #user profile page is opened
         #verify that user balance is set to 5000
         self.assert_element("#ubalance")
         self.assert_text(5000, "#ubalance")
       
 '''
+

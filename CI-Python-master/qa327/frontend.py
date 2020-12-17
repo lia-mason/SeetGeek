@@ -225,11 +225,9 @@ def update_post():
     except: 
         checkDate = None
 
-    if ticket == None:
-        error_message = "Sorry, this ticket is not available."
 
     #verifies that checkDate is not equal to None
-    elif checkDate == None:
+    if checkDate == None:
         error_message = "Incorrect expiration date format"
     #redirects for any errors
    # elif error_message:
@@ -254,6 +252,8 @@ def update_post():
     #Price has to be in the range 10-100
     elif int(price) < 10 or int(price) > 100:
         error_message = "The ticket price must be between 10 and 100 (inclusive)."
+    elif ticket == None:
+        error_message = "Sorry, this ticket is not available."
     if error_message:
         tickets = bn.get_all_tickets()
         return render_template('index.html', message=error_message, user=user, tickets=tickets)
