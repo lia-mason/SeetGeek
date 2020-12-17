@@ -47,7 +47,50 @@ def register_user(email, name, password, password2, balance):
     db.session.add(new_user)
     db.session.commit()
     return None
+def add_ticket(name,quantity,price,expiration):
+    new_ticket = Ticket(name=name,quantity=quantity,price=price,expirationdate=expiration)
+    db.session.add(new_ticket)
+    db.session.commit()
+    return None
 
+def get_ticket(name):
+    ticket = Ticket.query.filter_by(name=name).first()
+    return ticket
+
+def remove_ticket(name):
+    ticket = get_ticket(name)
+    db.session.delete(ticket)
+    db.session.commit()
+    return None
+
+def update_ticket(name,quantity,price,expiration):
+    ticket = get_ticket(name)
+    ticket.name = name
+    ticket.quantity = quantity
+    ticket.price = price
+    ticket.expirationdate = expiration
+    db.session.commit()
+    return None
+
+def update_quantity(name,quantity):
+    ticket = get_ticket(name)
+    ticket.quantity = ticket.quantity - int(quantity)
+    db.session.commit()
+    return None
+    
+
+def ticket_bought(name):
+    ticket = get_ticket(name)
+    if ticket.quantity == 1:
+        remove_ticket(name)
+    else:
+        ticket.quantity = ticket.quantity-1
+    return None
 
 def get_all_tickets():
-    return []
+    tickets = Ticket.query.all()
+    return tickets
+    
+def get_all_tickets():
+    tickets = Ticket.query.all()
+    return tickets

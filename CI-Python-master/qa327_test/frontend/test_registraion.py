@@ -565,4 +565,3 @@ class RegistrationTest(BaseCase):
         #verify that user balance is set to 5000
         self.assert_element("#ubalance")
         self.assert_text(5000, "#ubalance")
-      
