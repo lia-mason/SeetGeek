@@ -1,7 +1,7 @@
 version: "2"
 services:
   seetgeek-web:
-    image: amaar/seetgeek:v1
+    image: amaar/seetgeek:v2
     depends_on:
       - seetgeek-db
     links:
